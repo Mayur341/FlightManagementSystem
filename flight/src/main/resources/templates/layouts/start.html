@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/desk-css/desk.css}">
+<title th:text="#{title}"></title>
+</head>
+<body>
+
+<div layout:fragment="orders">
+<br>
+<h1 th:text="#{registration}"></h1>
+<hr>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div id="reg">
+
+<form action="" method="POST">
+
+<h4 th:text="#{signing}"></h4>
+
+<input type="text" id="username" name="username" th:placeholder="#{email}" required="required"/><br><br>
+<input type="password" id="password" name="password" th:placeholder="#{pass}"  required="required"/><br><br>
+<input type="submit" th:value="#{send}">
+</form>
+</div>
+</div>
+
+</body>
+</html>
