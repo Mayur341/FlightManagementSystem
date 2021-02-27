@@ -23,6 +23,7 @@ public class Passenger {
 	private List<FlightTicket> flightTickets;
 	private String userName;
 	private String password;
+	private boolean admin;
 	
 	private Passenger() {
 	}
@@ -83,10 +84,20 @@ public class Passenger {
 		this.password = password;
 	}
 
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+
 	@Override
 	public String toString() {
 		return "Passenger [firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth
-				+ ", flightTickets=" + flightTickets + ", userName=" + userName + ", password=" + password + "]";
+				+ ", userName=" + userName + ", password=" + password + ", admin="
+				+ admin + "]";
 	}
 	
+
 }

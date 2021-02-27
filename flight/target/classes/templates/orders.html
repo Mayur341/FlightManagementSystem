@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layouts/start">
+      layout:decorate="layouts/login">
 <head>
 
 <meta charset="UTF-8">
@@ -19,12 +19,14 @@
 	<th th:text="#{firstname}"></th>
 	<th th:text="#{lastname}"></th>
 	<th th:text="#{birth}"></th>
+	<th th:text="#{flight.number}"></th>
 	<th th:text="#{departure.date}"></th>
 	<th th:text="#{departure.place}"></th>
 	<th th:text="#{arrival.date}"></th>
 	<th th:text="#{arrival.place}"></th>
-	<th th:text="#{debit}"></th>
-	<th th:text="#{paid}"></th>
+	<th th:text="#{price}"></th>
+	<th th:text="#{admin}"></th>
+	<th th:text="#{deleted}"></th>
 	<th th:text="#{user}"></th>
 	<th th:text="#{pass}"></th>
 	</tr>
@@ -33,12 +35,14 @@
 	<td th:text=${pass.passenger.firstName}></td>
 	<td th:text=${pass.passenger.lastName}></td>
 	<td th:text="${#dates.format(pass.passenger.dateOfBirth, 'YYYY-MM-dd')}"></td>
+	<td th:text=${pass.flightNumber}></td>
 	<td th:text="${#dates.format(pass.departureDate, 'YYYY-MM-dd HH:mm')}"></td>
 	<td th:text=${pass.departurePlace}></td>
 	<td th:text="${#dates.format(pass.arrivalDate, 'YYYY-MM-dd HH:mm')}"></td>
 	<td th:text=${pass.arrivalPlace}></td>
-	<td th:text=${pass.debit}></td>
-	<td th:text=${pass.isPaid}></td>
+	<td th:text=${pass.price}></td>
+	<td th:text=${pass.passenger.isAdmin}></td>
+	<td th:text=${pass.deleted}></td>
 	<td th:text=${pass.passenger.userName}></td>
 	<td th:text=${pass.passenger.password}></td>
 	<tr>

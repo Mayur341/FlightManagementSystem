@@ -5,13 +5,15 @@ import java.util.Date;
 
 public class FlightData {
 	
-	private Passenger passenger;	
+	private Passenger passenger;
+	private String flightNumber;
 	private String departurePlace;
 	private String arrivalPlace;
 	private Date departureDate;
 	private Date arrivalDate;
-	private int debit;
-	private boolean paid;
+	private int price;
+	private boolean admin;
+	private boolean deleted;
 	
 	public FlightData(Passenger passenger) {
 		this.passenger = passenger;
@@ -56,28 +58,40 @@ public class FlightData {
 	public void setArrivalDate(Date arrivalDate) {
 		this.arrivalDate = arrivalDate;
 	}
-
-	public int getDebit() {
-		return debit;
-	}
-
-	public void setDebit(int debit) {
-		this.debit = debit;
-	}
-
-	public boolean isPaid() {
-		return paid;
-	}
-
-	public void setPaid(boolean paid) {
-		this.paid = paid;
-	}
-
-	@Override
-	public String toString() {
-		return "FlightData [passenger=" + passenger + ", departurePlace=" + departurePlace + ", arrivalPlace="
-				+ arrivalPlace + ", departureDate=" + departureDate + ", arrivalDate=" + arrivalDate + ", debit="
-				+ debit + ", paid=" + paid + "]";
-	}
 	
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public String getFlightNumber() {
+		return flightNumber;
+	}
+
+	public void setFlightNumber(String flightNumber) {
+		this.flightNumber = flightNumber;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+
+	
+
+		
 }

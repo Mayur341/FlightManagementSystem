@@ -38,12 +38,13 @@ public class FlightService   {
 			Passenger passenger = flightTicket.getPassenger();
 			if(passenger != null) {
 				FlightData data = new FlightData(passenger);
+				data.setFlightNumber(flightTicket.getFlightNumber());
 				data.setDepartureDate(flightTicket.getDepartureDate());
 				data.setDeparturePlace(flightTicket.getDeparturePlace());
 				data.setArrivalDate(flightTicket.getArrivalDate());
 				data.setArrivalPlace(flightTicket.getArrivalPlace());
-				data.setDebit(flightTicket.getDebit());
-				data.setPaid(flightTicket.isPaid());
+				data.setPrice(flightTicket.getPrice());
+				data.setDeleted(flightTicket.isDeleted());
 				allData.add(data);
 			}
 		}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/login">
+<head>
+
+<meta charset="UTF-8">
+<title th:text="#{title}"></title>
+</head>
+<body>
+
+<div layout:fragment="orders">
+<h1 th:text="#{registration}"></h1>
+<hr>
+<br>
+<br>
+<br>
+<div id="registForm">
+<br>
+<h4 th:text=#{firstname}></h4>
+<input type="text" id="fname" name="firstname"  size="50" required="required"/><br>
+<h4 th:text=#{lastname}></h4>
+<input type="text" id="lname" name="lastname"  size="50" required="required"/><br>
+<h4 th:text=#{birth}></h4>
+<input type="date" id="bdate" name="birthdate" required="required"/><br>
+<h4 th:text=#{user}></h4>
+<input type="email" id="uname" name="username"  size="50" th:placeholder="#{email}" required="required"/><br>
+<h4 th:text=#{pass}></h4>
+<input type="text" id="pass" name="pass"  size="50" required="required"/><br>
+<h4 th:text=#{passagain}></h4>
+<input type="text" id="passagain" name="pass"  size="50" required="required"/><br><br><br>
+<input type="submit" th:value="#{send}"><br><br>
+
+</div>
+
+	
+</div>
+
+</body>
+</html>
