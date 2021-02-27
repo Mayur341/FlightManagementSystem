@@ -16,15 +16,16 @@ public class FlightTicket {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	private String flightNumber;
 	private String departurePlace;
 	private String arrivalPlace;
 	private Date departureDate;
 	private Date arrivalDate;
 	@ManyToOne
 	private Passenger passenger;
-	private int debit;
-	private boolean paid;
-	
+	private int price;
+	private boolean deleted;
+		
 	private FlightTicket() {
 	}
 
@@ -75,28 +76,31 @@ public class FlightTicket {
 	public void setPassenger(Passenger passenger) {
 		this.passenger = passenger;
 	}
+	
 
-	public int getDebit() {
-		return debit;
+	public String getFlightNumber() {
+		return flightNumber;
 	}
 
-	public void setDebit(int debit) {
-		this.debit = debit;
+	public void setFlightNumber(String flightNumber) {
+		this.flightNumber = flightNumber;
 	}
 
-	public boolean isPaid() {
-		return paid;
+	public int getPrice() {
+		return price;
 	}
 
-	public void setPaid(boolean paid) {
-		this.paid = paid;
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
-	@Override
-	public String toString() {
-		return "FlightTicket [departurePlace=" + departurePlace + ", arrivalPlace=" + arrivalPlace + ", departureDate="
-				+ departureDate + ", arrivalDate=" + arrivalDate + ", debit=" + debit
-				+ ", paid=" + paid + "]";
+	public boolean isDeleted() {
+		return deleted;
 	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
 	
 }

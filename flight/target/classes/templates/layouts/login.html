@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/flight-css/flight.css}">
+<title th:text="#{title}"></title>
+</head>
+<body>
+
+<select id="langSelect">
+<option onclick="setLanguage('hu')">HU</option>
+<option onclick="setLanguage('en')">EN</option>
+</select>
+
+
+<div layout:fragment="orders">
+<br>
+<h1 th:text="#{login}"></h1>
+<hr>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div id="reg">
+
+<form action="" method="POST">
+<br>
+<input type="text" id="username" name="username" th:placeholder="#{email}" required="required"/><br><br>
+<input type="password" id="password" name="password" th:placeholder="#{pass}"  required="required"/><br><br>
+<input type="submit" th:value="#{send}"><br><br>
+<a th:href="@{registration}" th:text="#{registration}"></a>
+</form>
+</div>
+</div>
+<script type="text/javascript" th:src="@{/flight-js/flight-js.js}"></script>
+</body>
+</html>
