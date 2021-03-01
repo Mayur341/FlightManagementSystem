@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layouts/login">
+      layout:decorate="auth/login">
 <head>
 
 <meta charset="UTF-8">
@@ -30,8 +30,8 @@
 	<th th:text="#{user}"></th>
 	<th th:text="#{pass}"></th>
 	</tr>
-	<tr th:each= "pass : ${passengers}">
-	<td th:text=${passStat.index}></td>
+	<tr th:each="pass : ${passengers}">
+	<td th:text=${passStat.count}></td>
 	<td th:text=${pass.passenger.firstName}></td>
 	<td th:text=${pass.passenger.lastName}></td>
 	<td th:text="${#dates.format(pass.passenger.dateOfBirth, 'YYYY-MM-dd')}"></td>

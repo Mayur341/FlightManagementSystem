@@ -102,5 +102,12 @@ public class FlightTicket {
 		this.deleted = deleted;
 	}
 
+	@Override
+	public String toString() {
+		return "FlightTicket [id=" + id + ", flightNumber=" + flightNumber + ", departurePlace=" + departurePlace
+				+ ", arrivalPlace=" + arrivalPlace + ", departureDate=" + departureDate + ", arrivalDate=" + arrivalDate
+				+  ", price=" + price + ", deleted=" + deleted + "]";
+	}
+
 	
 }

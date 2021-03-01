@@ -1,12 +1,9 @@
 /**
  * 
  */
-
-/**
- * 
- */
-
-
-function setLanguage(lang) {
+ 
+ 
+function setLanguage() {
 	
 }
+
