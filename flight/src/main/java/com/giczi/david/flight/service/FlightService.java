@@ -52,6 +52,4 @@ public class FlightService   {
 		return allData;
 	}
 	
-	
-	
 }
