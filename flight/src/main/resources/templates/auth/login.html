@@ -2,22 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/main"
+	>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" th:href="@{/flight-css/flight.css}">
 <title th:text="#{title}"></title>
 </head>
 <body>
-
-<select id="langSelect">
-<option onclick="setLanguage()" th:value="#{lang}" th:text="#{lang}"></option>
-<option onclick="setLanguage()" th:if="#{lang} == 'HU'">EN</option>
-<option onclick="setLanguage()" th:if="#{lang} == 'EN'">HU</option>
-</select>
-
-
-<div layout:fragment="orders">
+<div layout:fragment="auth/login">
 <br>
 <h1 th:text="#{login}"></h1>
 <hr>
@@ -31,13 +24,13 @@
 
 <form action="" method="POST">
 <br>
-<input type="text" id="username" name="username" th:placeholder="#{email}" required="required"/><br><br>
-<input type="password" id="password" name="password" th:placeholder="#{pass}"  required="required"/><br><br>
+<input type="text" id="username" name="username" th:placeholder="#{email}"  size="30" required="required"/><br><br>
+<input type="password" id="password" name="password" th:placeholder="#{pass}" size="30" required="required"/><br><br>
 <input type="submit" th:value="#{send}"><br><br>
 <a th:href="@{registration}" th:text="#{registration}"></a>
 </form>
 </div>
 </div>
-<script type="text/javascript" th:src="@{/flight-js/flight-js.js}"></script>
+
 </body>
 </html>
