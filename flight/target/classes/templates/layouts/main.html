@@ -10,10 +10,10 @@
 </head>
 <body>
 
-<select id="langSelect">
-<option onclick="setLanguage()" th:value="#{lang}" th:text="#{lang}"></option>
-<option onclick="setLanguage()" th:if="#{lang} == 'HU'">EN</option>
-<option onclick="setLanguage()" th:if="#{lang} == 'EN'">HU</option>
+<select id="langSelect" onchange="setLanguage()">
+<option th:value="#{lang}" th:text="#{lang}"></option>
+<option th:if="#{lang} == 'HU'">EN</option>
+<option th:if="#{lang} == 'EN'">HU</option>
 </select>
 
 <div layout:fragment="auth/login"></div>
