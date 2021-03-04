@@ -34,7 +34,7 @@
 	<td th:text=${passStat.count}></td>
 	<td th:text=${pass.passenger.firstName}></td>
 	<td th:text=${pass.passenger.lastName}></td>
-	<td th:text="${#dates.format(pass.passenger.dateOfBirth, 'YYYY-MM-dd')}"></td>
+	<td th:text="${#dates.format(pass.passenger.dateOfBirth, 'YYYY-MMM-dd')}"></td>
 	<td th:text=${pass.flightNumber}></td>
 	<td th:text="${#dates.format(pass.departureDate, 'YYYY-MM-dd HH:mm')}"></td>
 	<td th:text=${pass.departurePlace}></td>

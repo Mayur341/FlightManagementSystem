@@ -3,6 +3,7 @@ package com.giczi.david.flight.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,9 +17,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.
 			authorizeRequests()
+				.antMatchers("/console/**").permitAll()
 				.antMatchers("/flight-js/**", "/flight-css/**").permitAll()
 				.antMatchers("/flight/login").permitAll()
 				.antMatchers("/flight/registration").permitAll()
+				.antMatchers(HttpMethod.POST,"/flight/reg").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
@@ -26,7 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll()
 				.and()
 			.logout()
+				.logoutSuccessUrl("/login?logout")
 				.permitAll();
+		
+		http.csrf().disable();
+		http.headers().frameOptions().disable();
 	}
 
 	
@@ -39,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.roles("USER")
 			.and().
 				withUser("david.giczi@gmail.com")
-				.password("Localhero78")
+				.password("dave")
 				.roles("ADMIN");
 	}
 	

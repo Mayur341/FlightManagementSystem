@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "passengers")
 public class Passenger {
@@ -18,6 +20,7 @@ public class Passenger {
 	private Long id;
 	private String firstName;
 	private String lastName;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateOfBirth;
 	@OneToMany(mappedBy = "passenger")
 	private List<FlightTicket> flightTickets;
@@ -25,7 +28,7 @@ public class Passenger {
 	private String password;
 	private boolean admin;
 	
-	private Passenger() {
+	public Passenger() {
 	}
 
 	public Long getId() {
