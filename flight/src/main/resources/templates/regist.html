@@ -18,20 +18,21 @@
 <div id="registForm">
 <br>
 <br>
-<h4 th:text=#{firstname}></h4>
-<input type="text" id="fname" name="firstname"  size="50" required="required"/><br>
-<h4 th:text=#{lastname}></h4>
-<input type="text" id="lname" name="lastname"  size="50" required="required"/><br>
-<h4 th:text=#{birth}></h4>
-<input type="date" id="bdate" name="birthdate" required="required"/><br>
-<h4 th:text=#{user}></h4>
-<input type="email" id="uname" name="username" size="50" th:placeholder="#{email}" required="required"/><br><font></font>
-<h4 th:text=#{pass}></h4>
-<input type="text" id="pass" name="pass"  size="50" required="required"/><br><font></font>
-<h4 th:text=#{passagain}></h4>
-<input type="text" id="passagain" name="pass"  size="50" required="required"/><br><font></font><br><br>
+<form th:action="@{/flight/reg}" method="post" th:object="${user}">
+<h4 th:text="#{firstname}"></h4>
+<input type="text" id="fname" name="firstname" th:field="*{firstName}" size="50" required="required"/><br>
+<h4 th:text="#{lastname}"></h4>
+<input type="text" id="lname" name="lastname" th:field="*{lastName}" size="50" required="required"/><br>
+<h4 th:text="#{birth}"></h4>
+<input type="date" id="bdate" name="birthdate" th:field="*{{dateOfBirth}}" required="required"/><br>
+<h4 th:text="#{user}"></h4>
+<input type="email" id="uname" name="username" size="50" th:field="*{userName}" th:placeholder="#{email}" required="required"/><div id="regform-error" th:text="#{username.error}"></div>
+<h4 th:text="#{pass}"></h4>
+<input type="password" id="pass" name="pass" size="50" required="required"/><br><div id="regform-error" th:text="#{password.error}"></div><div id="pass-info" th:text="#{password.info}"></div>
+<h4 th:text="#{passagain}"></h4>
+<input type="password" id="passagain" name="pass" size="50" th:field="*{password}" required="required"/><br><div id="regform-error" th:text="#{again.password.error}"></div><br><br>
 <input type="submit" th:value="#{send}"><br><br>
-
+</form>
 </div>
 
 	
