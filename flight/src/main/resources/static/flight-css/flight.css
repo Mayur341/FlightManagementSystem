@@ -36,10 +36,10 @@ h1{
 	text-align: center;
 }
 
-#reg{
+#login{
 	background-color: white;
 	text-align: center;
-	height: 220px;
+	height: 260px;
 	width: 300px;
 	margin: auto;
 	border-radius: 10px;
@@ -53,14 +53,14 @@ h1{
 #registForm{
 	background-color: white;
 	text-align: center;
-	height: 700px;
+	height: 800px;
 	width: 500px;
 	text-align: center;
 	border-radius: 10px;
 	margin: auto;
  	border: solid 1px lightgray;
 }
-#pass-info, #regform-error  {
+#pass-info, #user-error, #pass-error, #pass-again-error {
 	font-family: Trebuchet MS;
 	font-size: 12px;
 	color:white;
@@ -76,6 +76,12 @@ hr{
 }
 input{
 	background-color: lightgray;
+	height: 30px;
+	border-radius: 5px;
+}
+
+input[type=submit]{
+	width: 15em;
 }
 
 font {
