@@ -24,13 +24,20 @@
 <h4 th:text="#{birth}"></h4>
 <input type="date" id="bdate" name="birthdate" th:field="*{{dateOfBirth}}" required="required"/><br>
 <h4 th:text="#{user}"></h4>
-<input type="email" id="uname" name="username" size="50" th:field="*{userName}" th:placeholder="#{email}" required="required"/><div id="user-error" th:text="#{username.error}"></div>
+<input type="email" id="uname" name="username" size="50" th:field="*{userName}" th:placeholder="#{email}" required="required"/>
+<div id="username-error" th:text="#{username.error}"></div>
+<div id="username-correct" th:text="#{username.correct}"></div>
 <h4 th:text="#{pass}"></h4>
-<input type="password" id="pass" name="pass" size="50" required="required"/><br><div id="pass-error" th:text="#{password.error}"></div><div id="pass-info" th:text="#{password.info}"></div>
+<input type="password" id="pass" name="pass" size="50" required="required"/><br>
+<div id="password-error" th:text="#{password.error}"></div>
+<div id="password-correct" th:text="#{password.correct}"></div>
+<div id="password-info" th:text="#{password.info}"></div>
 <h4 th:text="#{passagain}"></h4>
-<input type="password" onblur="isEqual()" id="passagain" name="pass" size="50" th:field="*{password}" required="required"/><br>
-<div id="pass-again-error"  th:text="#{again.password.error}"></div><br><br>
-<input type="submit" th:value="#{send}"><br><br>
+<input type="password" onblur="isOK()" id="passagain" name="pass" size="50" th:field="*{password}" required="required"/><br>
+<div id="password-again-error"  th:text="#{again.password.error}"></div>
+<div id="password-again-correct" th:text="#{passwords.equal}"></div>
+<br>
+<input type="submit" id=regist-submit-btn th:value="#{send}"><br><br>
 </form>
 </div>
 

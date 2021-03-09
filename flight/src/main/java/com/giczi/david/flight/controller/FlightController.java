@@ -38,7 +38,6 @@ public class FlightController {
 	@RequestMapping("/login")
 	public String goLoginPage() {
 		
-		System.out.println(service.findById(3l).getPassword());
 		
 		return "auth/login";
 	}
@@ -51,6 +50,7 @@ public class FlightController {
 		
 		return "regist";
 	}
+	
 	
 	@PostMapping("/reg")
 	public String greetingSubmit(@ModelAttribute Passenger user) {
