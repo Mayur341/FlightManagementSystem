@@ -25,7 +25,6 @@
 	<th th:text="#{arrival.date}"></th>
 	<th th:text="#{arrival.place}"></th>
 	<th th:text="#{price}"></th>
-	<th th:text="#{admin}"></th>
 	<th th:text="#{deleted}"></th>
 	<th th:text="#{user}"></th>
 	<th th:text="#{pass}"></th>
@@ -41,7 +40,6 @@
 	<td th:text="${#dates.format(pass.arrivalDate, 'YYYY-MM-dd HH:mm')}"></td>
 	<td th:text=${pass.arrivalPlace}></td>
 	<td th:text=${pass.price}></td>
-	<td th:text=${pass.passenger.isAdmin}></td>
 	<td th:text=${pass.deleted}></td>
 	<td th:text=${pass.passenger.userName}></td>
 	<td th:text=${pass.passenger.password}></td>

@@ -1,15 +1,23 @@
 package com.giczi.david.flight.domain;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import org.springframework.format.annotation.DateTimeFormat;
+
 
 @Entity
 @Table(name = "passengers")
@@ -24,9 +32,18 @@ public class Passenger {
 	private Date dateOfBirth;
 	@OneToMany(mappedBy = "passenger")
 	private List<FlightTicket> flightTickets;
+	@Column(unique = true, nullable = false)
 	private String userName;
+	@Column(nullable = false)
 	private String password;
-	private boolean admin;
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(
+			name= "passengers_roles",
+			joinColumns= {@JoinColumn(name = "passenger_id")},
+			inverseJoinColumns = {@JoinColumn(name = "role_id")}
+			)
+	private Set<Role> roles = new HashSet<>();
 	
 	public Passenger() {
 	}
@@ -72,7 +89,7 @@ public class Passenger {
 	}
 
 	public String getUserName() {
-		return userName;
+		return userName; 
 	}
 
 	public void setUserName(String userName) {
@@ -87,20 +104,29 @@ public class Passenger {
 		this.password = password;
 	}
 
-	public boolean isAdmin() {
-		return admin;
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
-	public void setAdmin(boolean admin) {
-		this.admin = admin;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public void addRoles(String roleName) {
+		
+		if(this.roles == null || this.roles.isEmpty()) {
+			this.roles = new HashSet<>();
+		}
+			this.roles.add(new Role(roleName));
+		
 	}
 
 	@Override
 	public String toString() {
-		return "Passenger [firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth
-				+ ", userName=" + userName + ", password=" + password + ", admin="
-				+ admin + "]";
+		return "Passenger [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
+				+ dateOfBirth + ", userName=" + userName + ", password=" + password + ", roles=" + roles + "]";
 	}
+		
 	
-
+	
 }

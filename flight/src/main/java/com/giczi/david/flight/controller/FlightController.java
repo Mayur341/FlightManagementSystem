@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.giczi.david.flight.domain.Passenger;
 import com.giczi.david.flight.service.FlightService;
+import com.giczi.david.flight.service.PassengerService;
+
 import org.slf4j.Logger;
 
 
@@ -17,32 +19,25 @@ import org.slf4j.Logger;
 @RequestMapping("/flight")
 public class FlightController {
 
-	private FlightService service;
+	private FlightService flightService;
+	private PassengerService passengerService;
 	private final Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
 	
 	
 	@Autowired
-	public void setService(FlightService service) {
-		this.service = service;
+	public FlightController(FlightService service, PassengerService passengerService) {
+		this.flightService = service;
+		this.passengerService = passengerService;
 	}
 	
 	@RequestMapping("/orders")
 	public String showAllPassengers(Model model) {
 		
-		model.addAttribute("passengers", service.getAllData());
+		model.addAttribute("passengers", flightService.getAllData());
 			
 		return "orders";
 	}
 	
-
-	@RequestMapping("/login")
-	public String goLoginPage() {
-		
-		
-		return "auth/login";
-	}
-	
-
 	@RequestMapping("/registration")
 	public String goRegistrationPage(Model model) {
 		
@@ -54,7 +49,10 @@ public class FlightController {
 	
 	@PostMapping("/reg")
 	public String greetingSubmit(@ModelAttribute Passenger user) {
-		service.savePassenger(user);
+		
+		passengerService.registerPassenger(user);
+			
+		
 		return "auth/login";
 	}
 	
