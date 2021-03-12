@@ -2,6 +2,7 @@
  * 
  */
 
+
 if(document.getElementById("pass") !== null )
 document.getElementById("pass").addEventListener("mouseover", showInfoMessage);
 
@@ -13,12 +14,13 @@ if(document.getElementById("uname") !== null){
 document.getElementById("uname").addEventListener("blur", function validate(){
 
 	if(isValidUsr()){
-		
+		document.getElementById("username-correct").innerHTML = document.getElementById("username-correct-msg").value;
+		document.getElementById("username-error").innerHTML = "";
 		document.getElementById("username-correct").style.color= "green";
-		document.getElementById("username-error").style.color= "white";
 	}
 	else{
-		document.getElementById("username-correct").style.color= "white";
+		document.getElementById("username-error").innerHTML = document.getElementById("username-error-msg").value;
+		document.getElementById("username-correct").innerHTML = "";
 		document.getElementById("username-error").style.color= "red";
 	}
 	
@@ -31,12 +33,32 @@ if(document.getElementById("pass") !== null){
 document.getElementById("pass").addEventListener("blur", function validate(){
 
 	if(isValidPwd()){
+		document.getElementById("password-correct").innerHTML = document.getElementById("password-correct-msg").value;
+		document.getElementById("password-error").innerHTML = "";
 		document.getElementById("password-correct").style.color= "green";
-		document.getElementById("password-error").style.color= "white";
 	}
 	else{
-		document.getElementById("password-correct").style.color= "white";
+		document.getElementById("password-error").innerHTML = document.getElementById("password-error-msg").value;
+		document.getElementById("password-correct").innerHTML = "";
 		document.getElementById("password-error").style.color= "red";
+	}
+}
+);
+}
+
+if(document.getElementById("passagain") !== null){
+
+document.getElementById("passagain").addEventListener("blur", function validate(){
+
+	if(isEqual()){
+		document.getElementById("passwords-equal").innerHTML = document.getElementById("passwords-equal-msg").value;
+		document.getElementById("passwords-non-equal").innerHTML = "";
+		document.getElementById("passwords-equal").style.color= "green";
+	}
+	else{
+		document.getElementById("passwords-non-equal").innerHTML = document.getElementById("passwords-non-equal-msg").value;
+		document.getElementById("passwords-equal").innerHTML = "";
+		document.getElementById("passwords-non-equal").style.color= "red";
 	}
 }
 );
@@ -48,11 +70,12 @@ function setLanguage() {
 }
 
 function showInfoMessage(){
+document.getElementById("password-info").innerHTML = document.getElementById("password-info-msg").value;
 document.getElementById("password-info").style.color = "green";
 }
 
 function clearInfoMessage(){
-	document.getElementById("password-info").style.color = "white";
+	document.getElementById("password-info").innerHTML = "";
 }
 
 function isValidUsr() {
@@ -150,15 +173,11 @@ function isValidPwd(){
 }
 
 function isEqual(){
-	if(document.getElementById("pass").value !== document.getElementById("passagain").value){
-		document.getElementById("password-again-error").style.color= "red";
-		document.getElementById("password-again-correct").style.color= "white";
-		return false;
+	if(document.getElementById("pass").value === document.getElementById("passagain").value){	
+		return true;
 	}
 	else{
-		document.getElementById("password-again-error").style.color= "white";
-		document.getElementById("password-again-correct").style.color= "green";
-		return true;
+		return false;
 	}
 }
 
@@ -173,13 +192,3 @@ function isOK(){
 		document.getElementById("regist-submit-btn").disabled = true;
 	}
 }		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		

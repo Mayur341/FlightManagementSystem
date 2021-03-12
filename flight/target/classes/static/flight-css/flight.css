@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 body{
-	background-color: #ffc87a;
+	background-color: #E6E6FA;
 	font-family: Helvetica;
 }
 
@@ -53,7 +53,7 @@ h1{
 #registForm{
 	background-color: white;
 	text-align: center;
-	height: 800px;
+	height: 750px;
 	width: 500px;
 	text-align: center;
 	border-radius: 10px;
@@ -65,16 +65,20 @@ h1{
 #password-info,
 #password-error,
 #password-correct,
-#password-again-error,
-#password-again-correct {
+#passwords-equal,
+#passwords-non-equal {
 	font-family: Trebuchet MS;
 	font-size: 12px;
-	color: white;
 	}
 #error {
 	font-family: Trebuchet MS;
 	font-size: 12px;
 	color: red;
+	}
+#logout {
+	font-family: Trebuchet MS;
+	font-size: 12px;
+	color: green;
 	}
 hr{
 	background-color: lightgray;
@@ -91,8 +95,3 @@ input[type=submit]{
 	cursor: pointer;
 }
 
-font {
-	font-size: 12px;
-	font-family: Trebuchet MS;
-	color: red;
-}
