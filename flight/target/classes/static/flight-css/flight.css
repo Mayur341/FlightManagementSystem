@@ -46,9 +46,9 @@ h1{
 	border: solid 1px lightgray;
 }
 
-#langSelect{
+#langSelect, #signout{
 	float: right;
-
+	cursor: pointer;
 	}
 #registForm{
 	background-color: white;

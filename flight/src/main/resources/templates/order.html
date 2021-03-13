@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	 xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="layouts/main">
+<head>
+<meta charset="UTF-8">
+<title th:text="#{title}"></title>
+</head>
+<body>
+
+<div layout:fragment="order">
+<br>
+<br>
+<br>
+<a id="signout" th:href="@{/logout}" th:text="#{sign.out}"></a>
+<br>
+<br>
+<hr>
+
+
+
+</div>
+
+</body>
+</html>

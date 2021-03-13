@@ -33,11 +33,11 @@
 <div id="password-correct"></div>
 <div id="password-info"></div>
 <h4 th:text="#{passagain}"></h4>
-<input type="password" id="passagain" onmouseover="isOK()" name="pass" size="50" th:field="*{password}" required="required"/><br>
+<input type="password" id="passagain"  name="pass" size="50" th:field="*{password}" required="required"/><br>
 <div id="passwords-non-equal"></div>
 <div id="passwords-equal"></div>
 <br><br><br>
-<input type="submit" id=regist-submit-btn th:value="#{send}">
+<input type="submit" onmouseover="isOK()" id=regist-submit-btn th:value="#{send}">
 </form>
 </div>
 

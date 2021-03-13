@@ -1,7 +1,7 @@
 package com.giczi.david.flight.config;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import com.giczi.david.flight.service.EncoderService;
+import com.giczi.david.flight.service.PassengerServiceImpl;
 
 
 @Configuration
@@ -16,8 +17,10 @@ import com.giczi.david.flight.service.EncoderService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	
-	@Autowired
-	UserDetailsService userDetailsService;
+	 @Bean
+	  public UserDetailsService userDetailsService() {
+		 return new PassengerServiceImpl();
+	 }
 	
 	
 	@Override
@@ -29,18 +32,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/flight-js/**", "/flight-css/**").permitAll()
 				.antMatchers("/flight/registration").permitAll()
 				.antMatchers("/flight/reg").permitAll()
-				.antMatchers("/flight/orders").hasRole("USER")
 				.antMatchers("/admin/**").hasRole("ADMIN")
 				.anyRequest().authenticated()
 			.and()
 			.formLogin()
 				.loginPage("/login")
-				.defaultSuccessUrl("/flight/orders")
+				.defaultSuccessUrl("/flight/order", true)
 				.permitAll()
 			.and()
 			.logout()
-				.logoutSuccessUrl("/login?logout")
-				.permitAll();
+			.logoutUrl("/logout")
+			.invalidateHttpSession(true)
+			.deleteCookies("JSESSIONID")
+			.logoutSuccessUrl("/login?logout")
+			.permitAll();
 		
 		http.headers().frameOptions().disable();
 	}
@@ -48,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
      
-		auth.userDetailsService(userDetailsService).passwordEncoder(EncoderService.passwordEncoder());
+		auth.userDetailsService(userDetailsService()).passwordEncoder(EncoderService.passwordEncoder());
        
     }
 	
