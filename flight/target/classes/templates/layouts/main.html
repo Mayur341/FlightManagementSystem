@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
@@ -17,8 +17,9 @@
 </select>
 
 <div layout:fragment="auth/login"></div>
-<div layout:fragment="orders"></div>
+<div layout:fragment="reservations"></div>
 <div layout:fragment="regist"></div>
+<div layout:fragment="order"></div>
 
 </body>
 <script type="text/javascript" th:src="@{/flight-js/flight-js.js}"></script>

@@ -2,6 +2,7 @@ package com.giczi.david.flight.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,12 +31,20 @@ public class FlightController {
 		this.passengerService = passengerService;
 	}
 	
-	@RequestMapping("/orders")
+	@RequestMapping("/reservations")
 	public String showAllPassengers(Model model) {
 		
 		model.addAttribute("passengers", flightService.getAllData());
 			
-		return "orders";
+		return "reservations";
+	}
+	
+	@RequestMapping("/order")
+	public String goOrderPage(Authentication auth) {
+		
+		System.out.println(auth.getName());
+		
+		return "order";
 	}
 	
 	@RequestMapping("/registration")

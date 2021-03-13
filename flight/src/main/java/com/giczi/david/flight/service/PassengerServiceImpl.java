@@ -22,11 +22,15 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 	private final String ADMIN_ROLE = "ADMIN_ROLE";
 	
 	@Autowired
-	public PassengerServiceImpl(PassengerRepository passengerRepo, RoleRepository roleRepo) {
+	public void setPassengerRepo(PassengerRepository passengerRepo) {
 		this.passengerRepo = passengerRepo;
+	}
+	
+	@Autowired
+	public void setRoleRepo(RoleRepository roleRepo) {
 		this.roleRepo = roleRepo;
 	}
-
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
@@ -35,7 +39,6 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 		if(passenger == null) {
 			throw new UsernameNotFoundException(username);
 		}	
-		
 		
 		return new PassengerDetailsImpl(passenger);
 	}
