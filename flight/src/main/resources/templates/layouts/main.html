@@ -15,6 +15,11 @@
 <option th:if="#{lang} == 'HU'">EN</option>
 <option th:if="#{lang} == 'EN'">HU</option>
 </select>
+<br><br>
+<a id="signout" sec:authorize="isAuthenticated()" th:href="@{/logout}" th:text="#{sign.out}"></a>
+<br><br>
+<div id="auth" sec:authorize="isAuthenticated()">
+ <span th:text="#{auth}"></span><b><span sec:authentication="name"></span></b></div>
 
 <div layout:fragment="auth/login"></div>
 <div layout:fragment="reservations"></div>
