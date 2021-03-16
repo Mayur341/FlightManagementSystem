@@ -1,7 +1,9 @@
 /**
  * 
  */
-
+if(document.getElementById("usrnameExists") != null){
+	alert(document.getElementById("usrnameExists").value);
+}
 
 if(document.getElementById("pass") !== null )
 document.getElementById("pass").addEventListener("mouseover", showInfoMessage);
@@ -181,8 +183,8 @@ function isEqual(){
 	}
 }
 
+
 function isOK(){
-	
 	
 	 if(isValidUsr() && isValidPwd() && isEqual()){
 		

@@ -45,6 +45,10 @@ h1{
 	border-radius: 10px;
 	border: solid 1px lightgray;
 }
+#auth{
+	float: right;
+	color: #4B0082;
+}
 
 #langSelect, #signout{
 	float: right;
