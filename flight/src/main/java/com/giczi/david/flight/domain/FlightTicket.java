@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "tickets")
 public class FlightTicket {
@@ -19,14 +21,16 @@ public class FlightTicket {
 	private String flightNumber;
 	private String departurePlace;
 	private String arrivalPlace;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date departureDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date arrivalDate;
 	@ManyToOne
 	private Passenger passenger;
 	private int price;
 	private boolean deleted;
 		
-	private FlightTicket() {
+	public FlightTicket() {
 	}
 
 	public Long getId() {

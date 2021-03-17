@@ -28,8 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/console/**").permitAll()
+				.antMatchers("/login*").permitAll()
 				.antMatchers("/flight-js/**", "/flight-css/**").permitAll()
+				.antMatchers("/console/**").permitAll()
 				.antMatchers("/flight/registration").permitAll()
 				.antMatchers("/flight/reg").permitAll()
 				.antMatchers("/admin/**").hasRole("ADMIN")
