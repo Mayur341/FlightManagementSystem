@@ -2,19 +2,20 @@ package com.giczi.david.flight.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import com.giczi.david.flight.domain.FlightTicket;
 import com.giczi.david.flight.domain.Passenger;
-import com.giczi.david.flight.service.FlightService;
+import com.giczi.david.flight.service.FlightTicketService;
 import com.giczi.david.flight.service.PassengerService;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 
 
@@ -23,30 +24,59 @@ import org.slf4j.Logger;
 @RequestMapping("/flight")
 public class FlightController {
 
-	private FlightService flightService;
 	private PassengerService passengerService;
+	private FlightTicketService ticketService;
 	private final Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
+	private List<String> departurePlaces;
+	private List<String> arrivalPlaces;
+	private List<String> planes;
 	
 	
 	@Autowired
-	public FlightController(FlightService service, PassengerService passengerService) {
-		this.flightService = service;
+	public FlightController(PassengerService passengerService, FlightTicketService ticketService) {
 		this.passengerService = passengerService;
+		this.ticketService = ticketService;
 	}
 	
 	@RequestMapping("/reservations")
-	public String showAllPassengers(Model model) {
+	public String showAllTickets(Model model) {
 		
-		model.addAttribute("passengers", flightService.getAllData());
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Passenger passenger = passengerService.findByUserName(currentPrincipalName);
+		List<FlightTicket> tickets = ticketService.findNotDeletedTicketsByPassengerId(passenger);
+		
+		model.addAttribute("orderedTickets", tickets);
 			
 		return "reservations";
 	}
 	
 	@RequestMapping("/order")
-	public String goOrderPage() {
+	public String goOrderPage(Model model) {
+		init(); //for demo only
+		model.addAttribute("departurePlaces", departurePlaces);
+		model.addAttribute("arrivalPlaces", arrivalPlaces);
+		model.addAttribute("planes", planes);
+		model.addAttribute("cost", (int)(Math.random() * 20 + 1) * 500 + 10000);
 		
+		model.addAttribute("ticket", new FlightTicket());
+		 
 		return "order";
 	}
+	
+	@RequestMapping("/reserve")
+	public String goOrderPage(@ModelAttribute FlightTicket ticket) {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Passenger passenger = passengerService.findByUserName(currentPrincipalName);
+		ticket.setPassenger(passenger);
+		ticketService.saveFlightTicket(ticket);
+		
+		return "redirect:/flight/reservations";
+	}
+	
+	
 	
 	@RequestMapping("/registration")
 	public String goRegistrationPage(Model model) {
@@ -58,7 +88,7 @@ public class FlightController {
 	
 	
 	@PostMapping("/reg")
-	public String greetingSubmit(@ModelAttribute Passenger user, RedirectAttributes attribute) {
+	public String registration(@ModelAttribute Passenger user, RedirectAttributes attribute) {
 		
 		if(!passengerService.registerPassenger(user)) {
 			
@@ -69,6 +99,25 @@ public class FlightController {
 			
 		
 		return "auth/login";
+	}
+	
+	private void init() {
+		
+		departurePlaces = new ArrayList<>();
+		departurePlaces.add("Budapest");
+		departurePlaces.add("Debrecen");
+		arrivalPlaces = new ArrayList<>();
+		arrivalPlaces.add("Prague");
+		arrivalPlaces.add("Berlin");
+		arrivalPlaces.add("Barcelona");
+		arrivalPlaces.add("London");
+		arrivalPlaces.add("Paris");
+		arrivalPlaces.add("Helsinki");
+		arrivalPlaces.add("Moscow");
+		planes = new ArrayList<>();
+		planes.add("NKS-137");
+		planes.add("THY-1G6");
+		planes.add("N-X-211");
 	}
 	
 }

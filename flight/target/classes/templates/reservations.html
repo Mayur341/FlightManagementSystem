@@ -12,37 +12,27 @@
 <div layout:fragment="reservations">
 
 <h1 th:text="#{reservations}"></h1>
-	
+
 	<table>
 	<tr>
 	<th th:text="#{number}"></th>
-	<th th:text="#{firstname}"></th>
-	<th th:text="#{lastname}"></th>
-	<th th:text="#{birth}"></th>
-	<th th:text="#{flight.number}"></th>
 	<th th:text="#{departure.date}"></th>
 	<th th:text="#{departure.place}"></th>
 	<th th:text="#{arrival.date}"></th>
 	<th th:text="#{arrival.place}"></th>
+	<th th:text="#{flight.number}"></th>
 	<th th:text="#{price}"></th>
-	<th th:text="#{deleted}"></th>
-	<th th:text="#{user}"></th>
-	<th th:text="#{pass}"></th>
+	<th th:text="#{delete}"></th>
 	</tr>
-	<tr th:each="pass : ${passengers}">
-	<td th:text=${passStat.count}></td>
-	<td th:text=${pass.passenger.firstName}></td>
-	<td th:text=${pass.passenger.lastName}></td>
-	<td th:text="${#dates.format(pass.passenger.dateOfBirth, 'YYYY-MMM-dd')}"></td>
-	<td th:text=${pass.flightNumber}></td>
-	<td th:text="${#dates.format(pass.departureDate, 'YYYY-MM-dd HH:mm')}"></td>
-	<td th:text=${pass.departurePlace}></td>
-	<td th:text="${#dates.format(pass.arrivalDate, 'YYYY-MM-dd HH:mm')}"></td>
-	<td th:text=${pass.arrivalPlace}></td>
-	<td th:text=${pass.price}></td>
-	<td th:text=${pass.deleted}></td>
-	<td th:text=${pass.passenger.userName}></td>
-	<td th:text=${pass.passenger.password}></td>
+	<tr th:each="ticket : ${orderedTickets}">
+	<td th:text="${ticketStat.count}"></td>
+	<td th:text="${#dates.format(ticket.departureDate, 'YYYY-MMM-dd')}"></td>
+	<td th:text=${ticket.departurePlace}></td>
+	<td th:text="${#dates.format(ticket.arrivalDate, 'YYYY-MMM-dd')}"></td>
+	<td th:text=${ticket.arrivalPlace}></td>
+	<td th:text=${ticket.flightNumber}></td>
+	<td th:text=${ticket.price}></td>
+	<td><a th:text="#{del}"></a><tr>
 	<tr>
 	
 </table>

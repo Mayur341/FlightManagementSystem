@@ -20,7 +20,10 @@
 <br><br>
 <div id="auth" sec:authorize="isAuthenticated()">
  <span th:text="#{auth}"></span><b><span sec:authentication="name"></span></b></div>
-
+ <div id="options" sec:authorize="isAuthenticated()">
+ <a th:href="@{/flight/order}" th:text="#{order.form}"></a>&nbsp;&nbsp;&nbsp;
+ <a th:href="@{/flight/reservations}" th:text="#{orders}"></a>
+</div>
 <div layout:fragment="auth/login"></div>
 <div layout:fragment="reservations"></div>
 <div layout:fragment="regist"></div>
