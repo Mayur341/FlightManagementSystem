@@ -2,7 +2,7 @@
 
 body{
 	background-color: #E6E6FA;
-	font-family:  Trebuchet MS;
+	font-family: Helvetica;
 }
 
 table{
@@ -12,11 +12,11 @@ table{
 }
 
 th{
-	background-color:white;
+	background-color: #FFCCFF;
 	border: solid 1px gray;
 	border-collapse: collapse;
 	text-align: center;
-	color: black;
+	color:  #606060;
 }	
 	
 table, td{
@@ -36,6 +36,12 @@ h1{
  h4{
 	color: gray;
 	text-align: center;
+}
+
+#empty{
+	text-align: center;
+	color: #BA55D3;
+	font-style: italic;
 }
 
 #login{
@@ -73,16 +79,16 @@ h1{
 #password-correct,
 #passwords-equal,
 #passwords-non-equal {
-	font-family: Trebuchet MS;
+	font-family: Helvetica;
 	font-size: 12px;
 	}
 #error {
-	font-family: Trebuchet MS;
+	font-family: Helvetica;
 	font-size: 12px;
 	color: red;
 	}
 #logout {
-	font-family: Trebuchet MS;
+	font-family: Helvetica;
 	font-size: 12px;
 	color: green;
 	}
@@ -102,7 +108,7 @@ input[type=submit]{
 }
 
 a {
-	font-family: Trebuchet MS;
+	font-family: Helvetica;
 	font-size: 15px;
 	color:  #4B0082;
 	cursor: pointer;
@@ -113,5 +119,8 @@ a {
 	cursor: pointer;
 	border-radius: 5px;
 	background-color: lightgray;
+}
+.colored{
+	background-color: #d2f8d2;
 }
 

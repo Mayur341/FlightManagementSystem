@@ -1,6 +1,17 @@
 /**
  * 
  */
+
+function send(id){
+	
+	location.href = location.origin + "/flight/cancel?id=" + id;
+}
+
+function getArrivalDate(){
+	var date = document.getElementById("dep-date").value;
+	document.getElementById("arr-date").value = date;
+}
+	
 if(document.getElementById("usrnameExists") != null){
 	alert(document.getElementById("usrnameExists").value);
 }

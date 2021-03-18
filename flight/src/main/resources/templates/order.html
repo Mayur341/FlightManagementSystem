@@ -19,7 +19,7 @@
 <br>
 <form th:action="@{/flight/reserve}" method="post" th:object="${ticket}">
 <h4 th:text="#{departure.date}"></h4>
-<input type="date" th:field="*{{departureDate}}" required="required"/><br>
+<input id="dep-date" onblur="getArrivalDate()" type="date" th:field="*{{departureDate}}"  th:min="${date}" required="required"/><br>
 <h4 th:text="#{departure.place}"></h4>
 <select th:field="*{departurePlace}" class="selection" required="required">
 <option value="">---</option>
@@ -29,7 +29,7 @@ th:value="${depPlace}" th:text="${depPlace}">
 </select>
 <br>
 <h4 th:text="#{arrival.date}"></h4>
-<input type="date" th:field="*{{arrivalDate}}" required="required"/><br>
+<input id="arr-date" type="text" th:field="*{{arrivalDate}}" required="required" readonly="readonly"/><br>
 <h4 th:text="#{arrival.place}"></h4>
 <select th:field="*{arrivalPlace}" class="selection" required="required">
 <option value="">---</option>

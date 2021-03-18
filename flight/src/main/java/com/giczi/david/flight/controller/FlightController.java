@@ -8,13 +8,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.giczi.david.flight.domain.FlightTicket;
 import com.giczi.david.flight.domain.Passenger;
 import com.giczi.david.flight.service.FlightTicketService;
 import com.giczi.david.flight.service.PassengerService;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
 
@@ -58,7 +62,7 @@ public class FlightController {
 		model.addAttribute("arrivalPlaces", arrivalPlaces);
 		model.addAttribute("planes", planes);
 		model.addAttribute("cost", (int)(Math.random() * 20 + 1) * 500 + 10000);
-		
+		model.addAttribute("date", new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis())));
 		model.addAttribute("ticket", new FlightTicket());
 		 
 		return "order";
@@ -76,7 +80,13 @@ public class FlightController {
 		return "redirect:/flight/reservations";
 	}
 	
-	
+	@RequestMapping("/cancel{id}")
+	public String cancelReservation(@RequestParam(value = "id") Long id) {
+		
+		ticketService.cancelTicket(id);
+		
+		return "redirect:/flight/reservations";
+	}
 	
 	@RequestMapping("/registration")
 	public String goRegistrationPage(Model model) {
