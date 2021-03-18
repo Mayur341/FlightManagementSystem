@@ -13,7 +13,9 @@
 
 <h1 th:text="#{reservations}"></h1>
 
-	<table>
+<div id="empty" th:if="${#lists.isEmpty(orderedTickets)}" th:text="#{empty}"></div>
+
+	<table th:if="${not #lists.isEmpty(orderedTickets)}">
 	<tr>
 	<th th:text="#{number}"></th>
 	<th th:text="#{departure.date}"></th>
@@ -22,20 +24,22 @@
 	<th th:text="#{arrival.place}"></th>
 	<th th:text="#{flight.number}"></th>
 	<th th:text="#{price}"></th>
-	<th th:text="#{delete}"></th>
+	<th th:text="#{cancel}"></th>
 	</tr>
 	<tr th:each="ticket : ${orderedTickets}">
-	<td th:text="${ticketStat.count}"></td>
-	<td th:text="${#dates.format(ticket.departureDate, 'YYYY-MMM-dd')}"></td>
-	<td th:text=${ticket.departurePlace}></td>
-	<td th:text="${#dates.format(ticket.arrivalDate, 'YYYY-MMM-dd')}"></td>
-	<td th:text=${ticket.arrivalPlace}></td>
-	<td th:text=${ticket.flightNumber}></td>
-	<td th:text=${ticket.price}></td>
-	<td><a th:text="#{del}"></a><tr>
-	<tr>
-	
+	<td th:text="${ticketStat.count}" th:classappend="${ticketStat.odd} ? '' : 'colored'"></td>
+	<td th:text="${#dates.format(ticket.departureDate, 'YYYY-MMM-dd')}" th:classappend="${ticketStat.odd} ? '' : 'colored'"></td>
+	<td th:text=${ticket.departurePlace} th:classappend="${ticketStat.odd} ? '' : 'colored'"></td>
+	<td th:text="${#dates.format(ticket.arrivalDate, 'YYYY-MMM-dd')}" th:classappend="${ticketStat.odd} ? '' : 'colored'"></td>
+	<td th:text=${ticket.arrivalPlace} th:classappend="${ticketStat.odd} ? '' : 'colored'"></td>
+	<td th:text=${ticket.flightNumber} th:classappend="${ticketStat.odd} ? '' : 'colored'"></td>
+	<td th:text=${ticket.price} th:classappend="${ticketStat.odd} ? '' : 'colored'"></td>
+	<td th:classappend="${ticketStat.odd} ? '' : 'colored'"><a th:onclick="'send(\'' + ${ticket.id} + '\');'" th:text="#{delete}"></a></td>
+	</tr>
+
 </table>
+
+
 
 </div>
 </body>

@@ -1,7 +1,7 @@
 package com.giczi.david.flight.service;
 
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.giczi.david.flight.domain.FlightTicket;
@@ -31,6 +31,14 @@ public class FlightTicketService {
 	public List<FlightTicket> findNotDeletedTicketsByPassengerId(Passenger passenger){
 		return ticketRepo.findNotDeletedTicketsByUserId(passenger.getId());
 	}
-
+	
+	public void cancelTicket(Long id) {
+		
+		Optional<FlightTicket> ticketOtional = ticketRepo.findById(id);
+		FlightTicket ticket = ticketOtional.get();
+		ticket.setDeleted(true);
+		ticketRepo.save(ticket);
+		
+	}
 	
 }
