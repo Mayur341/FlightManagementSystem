@@ -18,7 +18,7 @@
 <br>
 <form th:action="@{/flight/reg}" method="post" th:object="${user}">
 <h4 th:text="#{firstname}"></h4>
-<input type="text" id="fname" name="firstname" th:field="*{firstName}" size="50" required="required"/><br>
+<input type="text" id="fname" name="firstname" th:field="*{firstName}" size="50" required="required" autofocus="autofocus"/><br>
 <h4 th:text="#{lastname}"></h4>
 <input type="text" id="lname" name="lastname" th:field="*{lastName}" size="50" required="required"/><br>
 <h4 th:text="#{birth}"></h4>

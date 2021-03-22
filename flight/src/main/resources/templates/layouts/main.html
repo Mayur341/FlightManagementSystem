@@ -9,6 +9,7 @@
 <title></title>
 </head>
 <body>
+<input id="search-value" type="hidden" th:value="${txt}">
 
 <select id="langSelect" onchange="setLanguage()">
 <option th:value="#{lang}" th:text="#{lang}"></option>
@@ -22,8 +23,10 @@
  <span th:text="#{auth}"></span><b><span sec:authentication="name"></span></b></div>
  <div id="options" sec:authorize="isAuthenticated()">
  <a th:href="@{/flight/order}" th:text="#{order.form}"></a>&nbsp;&nbsp;&nbsp;
- <a th:href="@{/flight/reservations}" th:text="#{orders}"></a>
+ <a th:href="@{/flight/reservations}" th:text="#{orders}"></a>&nbsp;&nbsp;&nbsp;
+ <input id="search-field" th:onkeyup="'search()'" type="text" th:placeholder="#{search}">
 </div>
+
 <div layout:fragment="auth/login"></div>
 <div layout:fragment="reservations"></div>
 <div layout:fragment="regist"></div>

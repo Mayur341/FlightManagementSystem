@@ -34,11 +34,14 @@ public class FlightTicketService {
 	
 	public void cancelTicket(Long id) {
 		
-		Optional<FlightTicket> ticketOptional = ticketRepo.findById(id);
-		FlightTicket ticket = ticketOptional.get();
+		Optional<FlightTicket> ticketOtional = ticketRepo.findById(id);
+		FlightTicket ticket = ticketOtional.get();
 		ticket.setDeleted(true);
 		ticketRepo.save(ticket);
 		
 	}
-	
+	public List<FlightTicket> findByTextAndUserName(String text, Long id){
+		
+		return ticketRepo.findByTextAndUserName(text, id);
+	}
 }

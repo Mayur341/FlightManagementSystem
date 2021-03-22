@@ -124,3 +124,10 @@ a {
 	background-color: #d2f8d2;
 }
 
+#search-field{
+	background-color: lightgray;
+	height: 20px;
+	width: 120px;
+	border-radius: 5px;
+	text-align: center;
+}

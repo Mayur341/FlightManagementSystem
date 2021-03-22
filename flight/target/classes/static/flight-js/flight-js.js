@@ -1,6 +1,22 @@
 /**
  * 
  */
+if(document.getElementById("search-field") != null){	
+document.getElementById("search-field").addEventListener("focus", setup);
+document.getElementById("search-field").focus();
+}
+
+function setup(){
+if(document.getElementById("search-value").value != null){
+var searchValue = document.getElementById("search-value").value;
+document.getElementById("search-field").value = searchValue;
+}
+}
+
+function search(){
+	var str = document.getElementById("search-field").value;
+	location.href = location.origin + "/flight/search?text=" + str;
+}
 
 function send(id){
 	

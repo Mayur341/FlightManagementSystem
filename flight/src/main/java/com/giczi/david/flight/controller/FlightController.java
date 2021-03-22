@@ -88,6 +88,21 @@ public class FlightController {
 		return "redirect:/flight/reservations";
 	}
 	
+	@RequestMapping("/search{text}")
+	public String search(@RequestParam(value = "text") String text, Model model) {
+		
+		if( !text.isEmpty()) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Passenger passenger =  passengerService.findByUserName(currentPrincipalName);
+		List<FlightTicket> tickets = ticketService.findByTextAndUserName(text, passenger.getId());
+		model.addAttribute("txt", text);
+		model.addAttribute("orderedTickets", tickets);
+		}
+		
+		return "reservations";
+	}
+	
 	@RequestMapping("/registration")
 	public String goRegistrationPage(Model model) {
 		
