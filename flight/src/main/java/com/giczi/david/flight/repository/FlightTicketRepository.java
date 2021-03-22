@@ -15,4 +15,18 @@ public interface FlightTicketRepository extends CrudRepository<FlightTicket, Lon
 	List<FlightTicket> findByPassengerId(Long id);
 	@Query(value = "select * from tickets where passenger_id = :id and deleted = false", nativeQuery = true)
 	List<FlightTicket> findNotDeletedTicketsByUserId(@Param("id") Long id);
+	@Query(value = "select * from tickets"
+			+ " where "
+			+ "(passenger_id = :id and deleted = false and departure_place like %:text%)"
+			+ " or "
+			+ "(passenger_id = :id and deleted = false and departure_date like %:text%)" 
+			+ " or "
+			+ "(passenger_id = :id and deleted = false and arrival_place like %:text%)"
+			+ " or "
+			+ "(passenger_id = :id and deleted = false and arrival_date like %:text%)"
+			+ " or "
+			+ "(passenger_id = :id and deleted = false and flight_number like %:text%)"
+			+ " or "
+			+ "(passenger_id = :id and deleted = false and price like %:text%)", nativeQuery = true)
+	List<FlightTicket> findByTextAndUserName(@Param("text") String text, Long id);
 }
