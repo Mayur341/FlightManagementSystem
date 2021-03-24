@@ -36,8 +36,8 @@ public class Highlighter {
 				highlightedFlightTicket.setArrivalDate(new SimpleDateFormat("dd-MM-yyyy").format(flightTicket.getArrivalDate()));
 				break;
 			default:
-				highlightedFlightTicket.setDepartureDate(new SimpleDateFormat("dd-MM-yyyy").format(flightTicket.getDepartureDate()));
-				highlightedFlightTicket.setArrivalDate(new SimpleDateFormat("dd-MM-yyyy").format(flightTicket.getArrivalDate()));
+				highlightedFlightTicket.setDepartureDate(new SimpleDateFormat("yyyy-MM-dd").format(flightTicket.getDepartureDate()));
+				highlightedFlightTicket.setArrivalDate(new SimpleDateFormat("yyyy-MM-dd").format(flightTicket.getArrivalDate()));
 			}
 			highlightedFlightTicket.setDeparturePlace(flightTicket.getDeparturePlace());
 			highlightedFlightTicket.setArrivalPlace(flightTicket.getArrivalPlace());
