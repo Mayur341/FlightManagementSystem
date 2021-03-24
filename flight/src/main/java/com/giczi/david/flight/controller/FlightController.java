@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.giczi.david.flight.domain.FlightTicket;
 import com.giczi.david.flight.domain.Passenger;
 import com.giczi.david.flight.service.FlightTicketService;
+import com.giczi.david.flight.service.HighlightedFlightTicket;
 import com.giczi.david.flight.service.PassengerService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class FlightController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		Passenger passenger = passengerService.findByUserName(currentPrincipalName);
-		List<FlightTicket> tickets = ticketService.findNotDeletedTicketsByPassengerId(passenger);
+		List<HighlightedFlightTicket> tickets = ticketService.findNotDeletedTicketsByPassengerId(passenger);
 		
 		model.addAttribute("orderedTickets", tickets);
 			
@@ -95,7 +96,7 @@ public class FlightController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		Passenger passenger =  passengerService.findByUserName(currentPrincipalName);
-		List<FlightTicket> tickets = ticketService.findByTextAndUserName(text, passenger.getId());
+		List<HighlightedFlightTicket> tickets = ticketService.findByTextAndUserName(text, passenger.getId());
 		model.addAttribute("txt", text);
 		model.addAttribute("orderedTickets", tickets);
 		}

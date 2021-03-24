@@ -28,8 +28,11 @@ public class FlightTicketService {
 		
 	}
 
-	public List<FlightTicket> findNotDeletedTicketsByPassengerId(Passenger passenger){
-		return ticketRepo.findNotDeletedTicketsByUserId(passenger.getId());
+	public List<HighlightedFlightTicket> findNotDeletedTicketsByPassengerId(Passenger passenger){
+		
+		List<FlightTicket> tickets = ticketRepo.findNotDeletedTicketsByUserId(passenger.getId());
+		
+		return new Highlighter().createInputFlightTicketStore(tickets);
 	}
 	
 	public void cancelTicket(Long id) {
@@ -40,8 +43,14 @@ public class FlightTicketService {
 		ticketRepo.save(ticket);
 		
 	}
-	public List<FlightTicket> findByTextAndUserName(String text, Long id){
+	public List<HighlightedFlightTicket> findByTextAndUserName(String text, Long id){
 		
-		return ticketRepo.findByTextAndUserName(text, id);
+		List<FlightTicket> tickets = ticketRepo.findByTextAndUserName(text, id);
+		Highlighter highlighter = new Highlighter();
+		highlighter.setSearchedExpression(text);
+		highlighter.createInputFlightTicketStore(tickets);
+		highlighter.createHighlightedFlightTicketStore();
+		
+		return highlighter.getHighlightedFlightTicketStore();
 	}
 }
