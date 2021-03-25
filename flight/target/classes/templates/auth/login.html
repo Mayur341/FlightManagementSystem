@@ -32,7 +32,15 @@
 <a th:href="@{/flight/registration}" th:text="#{registration}"></a>
 </form>
 </div>
+
+<input type="hidden" id="needful-activation" th:if="${needfulActivation}" th:value="#{activation.needful}"/>
+<span th:switch="${activationSuccess}">
+<input th:case="true" type="hidden" id="activation-success"  th:value="#{activation.success}"/> 
+<input th:case="false" type="hidden" id="activation-success"   th:value="#{activation.unsuccess}"/> 
+</span>
+
 </div>
+
 
 </body>
 </html>

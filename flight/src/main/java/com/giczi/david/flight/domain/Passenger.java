@@ -36,6 +36,8 @@ public class Passenger {
 	private String userName;
 	@Column(nullable = false)
 	private String password;
+	private boolean enabled;
+	private String activation;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(
@@ -121,12 +123,28 @@ public class Passenger {
 		
 	}
 
+	public Boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getActivation() {
+		return activation;
+	}
+
+	public void setActivation(String activation) {
+		this.activation = activation;
+	}
+
 	@Override
 	public String toString() {
 		return "Passenger [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
-				+ dateOfBirth + ", userName=" + userName + ", password=" + password + ", roles=" + roles + "]";
+				+ dateOfBirth + ", userName=" + userName + ", password=" + password + ", enabled=" + enabled
+				+ ", activation=" + activation + ", roles=" + roles + "]";
 	}
-		
 	
 	
 }

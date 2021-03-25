@@ -7,8 +7,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.giczi.david.flight.domain.FlightTicket;
@@ -17,10 +19,8 @@ import com.giczi.david.flight.service.FlightTicketService;
 import com.giczi.david.flight.service.HighlightedFlightTicket;
 import com.giczi.david.flight.service.PassengerService;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.slf4j.Logger;
 
 
 
@@ -30,12 +30,8 @@ public class FlightController {
 
 	private PassengerService passengerService;
 	private FlightTicketService ticketService;
-	private final Logger log = org.slf4j.LoggerFactory.getLogger(this.getClass());
-	private List<String> departurePlaces;
-	private List<String> arrivalPlaces;
-	private List<String> planes;
 	
-	
+		
 	@Autowired
 	public FlightController(PassengerService passengerService, FlightTicketService ticketService) {
 		this.passengerService = passengerService;
@@ -57,10 +53,10 @@ public class FlightController {
 	
 	@RequestMapping("/order")
 	public String goOrderPage(Model model) {
-		init(); //for demo only
-		model.addAttribute("departurePlaces", departurePlaces);
-		model.addAttribute("arrivalPlaces", arrivalPlaces);
-		model.addAttribute("planes", planes);
+		ticketService.init(); //for demo only
+		model.addAttribute("departurePlaces", ticketService.getDeparturePlaces());
+		model.addAttribute("arrivalPlaces", ticketService.getArrivalPlaces());
+		model.addAttribute("planes", ticketService.getPlanes());
 		model.addAttribute("cost", (int)(Math.random() * 20 + 1) * 500 + 10000);
 		model.addAttribute("date", new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis())));
 		model.addAttribute("ticket", new FlightTicket());
@@ -80,7 +76,7 @@ public class FlightController {
 		return "redirect:/flight/reservations";
 	}
 	
-	@RequestMapping("/cancel{id}")
+	@RequestMapping("/cancel")
 	public String cancelReservation(@RequestParam(value = "id") Long id) {
 		
 		ticketService.cancelTicket(id);
@@ -89,7 +85,7 @@ public class FlightController {
 	}
 	
 	
-	@RequestMapping("/search{text}")
+	@RequestMapping("/search")
 	public String search(@RequestParam(value = "text") String text, Model model) {
 		
 		if( !text.isEmpty()) {
@@ -112,9 +108,21 @@ public class FlightController {
 		return "regist";
 	}
 	
+	@RequestMapping(value = "/activation/{code}", method = RequestMethod.GET)
+	public String activation(@PathVariable("code") String code, Model model) {
+		
+		if(passengerService.userActivation(code)) {
+			model.addAttribute("activationSuccess", true);
+		}
+		else {
+			model.addAttribute("activationSuccess", false);
+		}
+		
+		return "auth/login";
+	}
 	
 	@PostMapping("/reg")
-	public String registration(@ModelAttribute Passenger user, RedirectAttributes attribute) {
+	public String registration(@ModelAttribute Passenger user, RedirectAttributes attribute, Model model) {
 		
 		if(!passengerService.registerPassenger(user)) {
 			
@@ -122,28 +130,12 @@ public class FlightController {
 			
 			return "redirect:/flight/registration";
 		}
-			
+		
+		model.addAttribute("needfulActivation", true);
 		
 		return "auth/login";
 	}
 	
-	private void init() {
-		
-		departurePlaces = new ArrayList<>();
-		departurePlaces.add("Budapest");
-		departurePlaces.add("Debrecen");
-		arrivalPlaces = new ArrayList<>();
-		arrivalPlaces.add("Prague");
-		arrivalPlaces.add("Berlin");
-		arrivalPlaces.add("Barcelona");
-		arrivalPlaces.add("London");
-		arrivalPlaces.add("Paris");
-		arrivalPlaces.add("Helsinki");
-		arrivalPlaces.add("Moscow");
-		planes = new ArrayList<>();
-		planes.add("NKS-137");
-		planes.add("THY-1G6");
-		planes.add("N-X-211");
-	}
+	
 	
 }

@@ -30,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/login*").permitAll()
 				.antMatchers("/flight/reg").permitAll()
+				.antMatchers("/flight/activation/**").permitAll()
 				.antMatchers("/flight-js/**", "/flight-css/**").permitAll()
 				.antMatchers("/console/**").permitAll()
 				.antMatchers("/flight/registration").permitAll()

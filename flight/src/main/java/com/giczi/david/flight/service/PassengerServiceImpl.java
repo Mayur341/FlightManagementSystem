@@ -1,5 +1,7 @@
 package com.giczi.david.flight.service;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +17,7 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 	
 	private PassengerRepository passengerRepo;
 	private RoleRepository roleRepo;
+	private EmailService emailService;
 	private final String USER_ROLE = "USER";
 	private final String ADMIN_ROLE = "ADMIN_ROLE";
 	
@@ -27,7 +30,12 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 	public void setRoleRepo(RoleRepository roleRepo) {
 		this.roleRepo = roleRepo;
 	}
-	
+
+	@Autowired
+	public void setEmailService(EmailService emailService) {
+		this.emailService = emailService;
+	}
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
@@ -63,12 +71,44 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 			passengerToRegister.addRoles(USER_ROLE);
 		}
 		
+		passengerToRegister.setEnabled(false);
+		String activationKey = generatedKey();
+		passengerToRegister.setActivation(activationKey);
+		emailService.sendMeassage(passengerToRegister.getUserName(), passengerToRegister.getFirstName(), passengerToRegister.getLastName(), activationKey);
 		passengerToRegister.setPassword(EncoderService.passwordEncoder().encode(passengerToRegister.getPassword()));
-		
 		passengerRepo.save(passengerToRegister);
 		
 		return true;
 	}
 
+	
+	private String generatedKey() {
+		
+		Random random = new Random();
+		char [] word = new char[16];
+		for(int j = 0; j < word.length; j++) {
+			word[j] = (char) ('a' + random.nextInt(26));
+		}
+		
+		return new String(word);
+	}
+
+	@Override
+	public boolean userActivation(String code) {
+		
+		Passenger passenger = passengerRepo.findByActivation(code);
+		
+		if(passenger == null) {
+			return false;
+		}
+		
+		passenger.setActivation("");
+		passenger.setEnabled(true);
+		passengerRepo.save(passenger);
+		
+		return true;
+	}
+	
+	
 	
 }
