@@ -26,7 +26,7 @@ public class Highlighter {
 		for (FlightTicket flightTicket : inputFlightTickets) {
 			HighlightedFlightTicket highlightedFlightTicket = new HighlightedFlightTicket();
 			highlightedFlightTicket.setId(flightTicket.getId());
-			switch (getDateFormat()) {
+			switch (getLocaleForDateFormat()) {
 			case 1:
 				highlightedFlightTicket.setDepartureDate(new SimpleDateFormat("yyyy-MM-dd").format(flightTicket.getDepartureDate()));
 				highlightedFlightTicket.setArrivalDate(new SimpleDateFormat("yyyy-MM-dd").format(flightTicket.getArrivalDate()));
@@ -50,7 +50,7 @@ public class Highlighter {
 	}
 	
 	
-	private int getDateFormat() {
+	private int getLocaleForDateFormat() {
 		
 		if(LocaleContextHolder.getLocale().equals(new Locale("hu"))) {
 			return 1;

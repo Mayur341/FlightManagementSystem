@@ -15,5 +15,6 @@ public interface PassengerRepository extends CrudRepository<Passenger, Long> {
 	@Query(value = "select * from passengers where user_name = :user and password = :pass", nativeQuery = true)
 	Passenger findPassengerByUsernameAndPassword(@Param("user") String user, @Param("pass") String pass);
 	Passenger findByUserName(String username);
+	Passenger findByActivation(String code);
 	
 }

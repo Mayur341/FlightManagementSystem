@@ -1,5 +1,6 @@
 package com.giczi.david.flight.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,50 @@ public class FlightTicketService {
 
 	
 	private FlightTicketRepository ticketRepo;
+	private List<String> departurePlaces;
+	private List<String> arrivalPlaces;
+	private List<String> planes;
 	
 	@Autowired
 	public void setTicketRepo(FlightTicketRepository ticketRepo) {
 		this.ticketRepo = ticketRepo;
 	}
 	
+	public void init() {
+		
+		departurePlaces = new ArrayList<>();
+		departurePlaces.add("Budapest");
+		departurePlaces.add("Debrecen");
+		arrivalPlaces = new ArrayList<>();
+		arrivalPlaces.add("Prague");
+		arrivalPlaces.add("Berlin");
+		arrivalPlaces.add("Barcelona");
+		arrivalPlaces.add("London");
+		arrivalPlaces.add("Paris");
+		arrivalPlaces.add("Helsinki");
+		arrivalPlaces.add("Moscow");
+		planes = new ArrayList<>();
+		planes.add("NKS-137");
+		planes.add("THY-1G6");
+		planes.add("N-X-211");
+	}
 	
+		
+	public List<String> getDeparturePlaces() {
+		return departurePlaces;
+	}
+
+
+	public List<String> getArrivalPlaces() {
+		return arrivalPlaces;
+	}
+
+
+	public List<String> getPlanes() {
+		return planes;
+	}
+
+
 	public void saveFlightTicket(FlightTicket ticket) {
 		
 		if(ticket != null) {

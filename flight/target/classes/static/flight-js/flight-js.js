@@ -1,6 +1,14 @@
 /**
  * 
  */
+
+if(document.getElementById("needful-activation") != null)
+alert(document.getElementById("needful-activation").value);
+
+if(document.getElementById("activation-success") != null){
+	alert(document.getElementById("activation-success").value);
+}
+
 if(document.getElementById("search-field") != null){	
 document.getElementById("search-field").addEventListener("focus", setup);
 document.getElementById("search-field").focus();

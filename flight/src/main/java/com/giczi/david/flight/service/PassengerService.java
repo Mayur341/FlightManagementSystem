@@ -7,4 +7,5 @@ public interface PassengerService {
 	
 	Passenger findByUserName(String username);
 	boolean registerPassenger(Passenger passengerToRegister);
+	boolean userActivation(String code);
 }
