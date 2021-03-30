@@ -80,8 +80,8 @@ public class Highlighter {
 				createEndIndexStore();
 				highlightedFlightTicketStore.get(i).setDepartureDate(createHighlightedString(highlightedFlightTicketStore.get(i).getDepartureDate()));
 			}
-		    if(highlightedFlightTicketStore.get(i).getDeparturePlace().contains(searchedExpression)) {
-				createBeginIndexStore(highlightedFlightTicketStore.get(i).getDeparturePlace());
+		    if(highlightedFlightTicketStore.get(i).getDeparturePlace().toLowerCase().contains(searchedExpression)) {
+				createBeginIndexStore(highlightedFlightTicketStore.get(i).getDeparturePlace().toLowerCase());
 				createEndIndexStore();
 				highlightedFlightTicketStore.get(i).setDeparturePlace(createHighlightedString(highlightedFlightTicketStore.get(i).getDeparturePlace()));
 			}
@@ -90,13 +90,13 @@ public class Highlighter {
 				createEndIndexStore();
 				highlightedFlightTicketStore.get(i).setArrivalDate(createHighlightedString(highlightedFlightTicketStore.get(i).getArrivalDate()));
 			}
-			if(highlightedFlightTicketStore.get(i).getArrivalPlace().contains(searchedExpression)) {
-				createBeginIndexStore(highlightedFlightTicketStore.get(i).getArrivalPlace());
+			if(highlightedFlightTicketStore.get(i).getArrivalPlace().toLowerCase().contains(searchedExpression)) {
+				createBeginIndexStore(highlightedFlightTicketStore.get(i).getArrivalPlace().toLowerCase());
 				createEndIndexStore();
 				highlightedFlightTicketStore.get(i).setArrivalPlace(createHighlightedString(highlightedFlightTicketStore.get(i).getArrivalPlace()));
 			}
-			if(highlightedFlightTicketStore.get(i).getFlightNumber().contains(searchedExpression)) {
-				createBeginIndexStore(highlightedFlightTicketStore.get(i).getFlightNumber());
+			if(highlightedFlightTicketStore.get(i).getFlightNumber().toLowerCase().contains(searchedExpression)) {
+				createBeginIndexStore(highlightedFlightTicketStore.get(i).getFlightNumber().toLowerCase());
 				createEndIndexStore();
 				highlightedFlightTicketStore.get(i).setFlightNumber(createHighlightedString(highlightedFlightTicketStore.get(i).getFlightNumber()));
 			}
