@@ -83,9 +83,26 @@ public class FlightTicketService {
 	}
 	public List<HighlightedFlightTicket> findByTextAndUserName(String text, Long id){
 		
-		List<FlightTicket> tickets = ticketRepo.findByTextAndUserName(text, id);
+		List<FlightTicket> tickets= new ArrayList<>();
+		
+		if(Character.isLetter(text.charAt(0)) && Character.isUpperCase(text.charAt(0))) {
+			text = text.charAt(0) + text.substring(1, text.length()).toLowerCase();
+		}
+		else if(Character.isLetter(text.charAt(0)) && Character.isLowerCase(text.charAt(0))) {
+			text = String.valueOf(text.charAt(0)).toUpperCase() + text.substring(1, text.length()).toLowerCase();
+		}
+		
+		tickets = ticketRepo.findByTextAndUserName(text, id);
+		
+		if(tickets.isEmpty()) {
+			tickets = ticketRepo.findByTextAndUserName(text.toUpperCase(), id);
+		}
+		if(tickets.isEmpty()) {
+			tickets = ticketRepo.findByTextAndUserName(text.toLowerCase(), id);
+		}
+		
 		Highlighter highlighter = new Highlighter();
-		highlighter.setSearchedExpression(text);
+		highlighter.setSearchedExpression(text.toLowerCase());
 		highlighter.createInputFlightTicketStore(tickets);
 		highlighter.createHighlightedFlightTicketStore();
 		
