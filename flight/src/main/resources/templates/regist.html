@@ -38,7 +38,8 @@
 <div id="passwords-equal"></div>
 <br><br><br>
 <input type="submit" id=regist-submit-btn th:value="#{send}">
-</form>
+</form><br>
+<a th:href="@{/login}" th:text="#{go.login}"></a>
 </div>
 
 <input type="hidden" id="username-correct-msg" th:value="#{username.correct}"/>

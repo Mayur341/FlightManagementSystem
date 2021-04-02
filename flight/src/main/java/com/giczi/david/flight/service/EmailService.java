@@ -1,10 +1,8 @@
 package com.giczi.david.flight.service;
 
-import java.util.Locale;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -34,7 +32,7 @@ public class EmailService {
 			SimpleMailMessage message = new SimpleMailMessage();
 			message.setFrom(MESSAGE_FROM);
 			message.setTo(email);
-			switch (getLocaleForDateFormat()) {
+			switch (LangService.getLanguageByLocale()) {
 			case 1:
 				message.setSubject("Sikeres regisztrálás");
 				message.setText("Kedves " + lastName + " " + firstName + "!\n\nKöszönjük, hogy regisztráltál a Flight Service oldalára. A fiókodat az alábbi linkre kattintva aktiválhatod:\n\n"
@@ -61,19 +59,6 @@ public class EmailService {
 			log.error("Error for sending e-mail to: " + email);
 		}
 		
-	}
-	
-
-	private int getLocaleForDateFormat() {
-		
-		if(LocaleContextHolder.getLocale().equals(new Locale("hu"))) {
-			return 1;
-		}
-		else if(LocaleContextHolder.getLocale().equals(new Locale("en"))) {
-			return 2;
-		}
-		
-		return -1;
 	}
 	
 	

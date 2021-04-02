@@ -103,17 +103,9 @@ document.getElementById("passagain").addEventListener("blur", function validate(
 
 function setLanguage() {
 	
-	 var lang = document.getElementById("langSelect").value.toLowerCase();
-	
-	if(location.pathname === "/flight/search"){
-			location.href = location.origin + "/flight/reservations?lang=" + lang;
-	}
-	else if(location.pathname === "/flight/reg"){
-			location.href = location.origin + "/login?lang=" + lang;
-	}
-	else {
-		location.href = "?lang=" + lang;
-	}		
+	var lang = document.getElementById("langSelect").value.toLowerCase();
+
+	location.href = "?lang=" + lang;
 }
 
 function showInfoMessage(){
@@ -238,4 +230,4 @@ function isOK(){
 	else{
 		document.getElementById("regist-submit-btn").disabled = true;
 	}
-}		
+}

@@ -44,7 +44,7 @@ h1{
 	font-style: italic;
 }
 
-#login{
+#login, .error{
 	background-color: white;
 	text-align: center;
 	height: 260px;
@@ -131,3 +131,4 @@ a {
 	border-radius: 5px;
 	text-align: center;
 }
+
