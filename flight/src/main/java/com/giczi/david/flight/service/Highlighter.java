@@ -3,10 +3,6 @@ package com.giczi.david.flight.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-
-import org.springframework.context.i18n.LocaleContextHolder;
-
 import com.giczi.david.flight.domain.FlightTicket;
 
 public class Highlighter {
@@ -26,7 +22,7 @@ public class Highlighter {
 		for (FlightTicket flightTicket : inputFlightTickets) {
 			HighlightedFlightTicket highlightedFlightTicket = new HighlightedFlightTicket();
 			highlightedFlightTicket.setId(flightTicket.getId());
-			switch (getLocaleForDateFormat()) {
+			switch (LangService.getLanguageByLocale()) {
 			case 1:
 				highlightedFlightTicket.setDepartureDate(new SimpleDateFormat("yyyy-MM-dd").format(flightTicket.getDepartureDate()));
 				highlightedFlightTicket.setArrivalDate(new SimpleDateFormat("yyyy-MM-dd").format(flightTicket.getArrivalDate()));
@@ -49,18 +45,6 @@ public class Highlighter {
 		return highlightedFlightTicketStore;
 	}
 	
-	
-	private int getLocaleForDateFormat() {
-		
-		if(LocaleContextHolder.getLocale().equals(new Locale("hu"))) {
-			return 1;
-		}
-		else if(LocaleContextHolder.getLocale().equals(new Locale("en"))) {
-			return 2;
-		}
-		
-		return -1;
-	}
 	
 	public List<HighlightedFlightTicket> getHighlightedFlightTicketStore() {
 		return highlightedFlightTicketStore;
