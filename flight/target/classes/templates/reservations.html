@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="layouts/main">
+	layout:decorate="layouts/main_user">
 <head>
 
 <meta charset="UTF-8">
@@ -36,7 +36,7 @@
 	<td th:utext=${ticket.arrivalPlace} th:classappend="${ticketStat.odd} ? '' : 'colored'"></td>
 	<td th:utext=${ticket.flightNumber} th:classappend="${ticketStat.odd} ? '' : 'colored'"></td>
 	<td th:utext=${ticket.price} th:classappend="${ticketStat.odd} ? '' : 'colored'"></td>
-	<td th:classappend="${ticketStat.odd} ? '' : 'colored'"><a th:onclick="'send(\'' + ${ticket.id} + '\');'" th:text="#{delete}"></a></td>
+	<td th:classappend="${ticketStat.odd} ? '' : 'colored'"><a th:onclick="'cancelTicket(\'' + ${ticket.id} + '\');'" th:text="#{delete}"></a></td>
 	</tr>
 
 </table>

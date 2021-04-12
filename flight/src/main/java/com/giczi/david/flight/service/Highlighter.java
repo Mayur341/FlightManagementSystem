@@ -4,10 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import com.giczi.david.flight.domain.FlightTicket;
+import com.giczi.david.flight.domain.FlightTicketDAO;
 
 public class Highlighter {
 
-	private List<HighlightedFlightTicket> highlightedFlightTicketStore;
+	private List<FlightTicketDAO> highlightedFlightTicketStore;
 	private String searchedExpression;
 	private List<Integer> beginIndexStore;
 	private List<Integer> endIndexStore;
@@ -15,12 +16,12 @@ public class Highlighter {
 	private final String postTag = "</span>";
 
 
-	public List<HighlightedFlightTicket> createInputFlightTicketStore(List<FlightTicket> inputFlightTickets){
+	public List<FlightTicketDAO> createInputFlightTicketStore(List<FlightTicket> inputFlightTickets){
 		
 		highlightedFlightTicketStore = new ArrayList<>();
 		
 		for (FlightTicket flightTicket : inputFlightTickets) {
-			HighlightedFlightTicket highlightedFlightTicket = new HighlightedFlightTicket();
+			FlightTicketDAO highlightedFlightTicket = new FlightTicketDAO();
 			highlightedFlightTicket.setId(flightTicket.getId());
 			switch (LangService.getLanguageByLocale()) {
 			case 1:
@@ -46,7 +47,7 @@ public class Highlighter {
 	}
 	
 	
-	public List<HighlightedFlightTicket> getHighlightedFlightTicketStore() {
+	public List<FlightTicketDAO> getHighlightedFlightTicketStore() {
 		return highlightedFlightTicketStore;
 	}
 	

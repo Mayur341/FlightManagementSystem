@@ -1,6 +1,7 @@
 package com.giczi.david.flight.repository;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -16,5 +17,6 @@ public interface PassengerRepository extends CrudRepository<Passenger, Long> {
 	Passenger findPassengerByUsernameAndPassword(@Param("user") String user, @Param("pass") String pass);
 	Passenger findByUserName(String username);
 	Passenger findByActivation(String code);
+	Optional<Passenger> findById(Long id);
 	
 }

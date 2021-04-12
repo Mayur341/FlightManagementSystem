@@ -1,13 +1,15 @@
 package com.giczi.david.flight.service;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.giczi.david.flight.domain.Passenger;
+import com.giczi.david.flight.domain.PassengerDAO;
 import com.giczi.david.flight.domain.Role;
 import com.giczi.david.flight.repository.PassengerRepository;
 import com.giczi.david.flight.repository.RoleRepository;
@@ -18,8 +20,8 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 	private PassengerRepository passengerRepo;
 	private RoleRepository roleRepo;
 	private EmailService emailService;
-	private final String USER_ROLE = "USER";
-	private final String ADMIN_ROLE = "ADMIN_ROLE";
+	public static String USER_ROLE = "ROLE_USER";
+	public static String ADMIN_ROLE = "ROLE_ADMIN";
 	
 	@Autowired
 	public void setPassengerRepo(PassengerRepository passengerRepo) {
@@ -39,18 +41,13 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		Passenger passenger = findByUserName(username);
+		Passenger passenger = passengerRepo.findByUserName(username);
 		
 		if(passenger == null) {
 			throw new UsernameNotFoundException(username);
 		}	
 		
 		return new PassengerDetailsImpl(passenger);
-	}
-
-	@Override
-	public Passenger findByUserName(String username) {
-		return passengerRepo.findByUserName(username);
 	}
 
 	@Override
@@ -74,8 +71,9 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 		passengerToRegister.setEnabled(false);
 		String activationKey = generatedKey();
 		passengerToRegister.setActivation(activationKey);
-		emailService.sendMeassage(passengerToRegister.getUserName(), passengerToRegister.getFirstName(), passengerToRegister.getLastName(), activationKey);
-		passengerToRegister.setPassword(EncoderService.passwordEncoder().encode(passengerToRegister.getPassword()));
+		//emailService.sendMeassage(passengerToRegister.getUserName(), passengerToRegister.getFirstName(), passengerToRegister.getLastName(), activationKey);
+		//passengerToRegister.setPassword(EncoderService.getBCryptEncoder().encode(passengerToRegister.getPassword()));
+		passengerToRegister.setPassword(EncoderService.encodeByBase64(passengerToRegister.getPassword()));
 		passengerRepo.save(passengerToRegister);
 		
 		return true;
@@ -102,11 +100,67 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 			return false;
 		}
 		
-		passenger.setActivation("");
+		passenger.setActivation(null);
 		passenger.setEnabled(true);
 		passengerRepo.save(passenger);
 		
 		return true;
+	}
+
+	@Override
+	public String getRoleByUsername(String username) {
+		
+		Passenger passenger = passengerRepo.findByUserName(username);
+		
+		if(passenger.getRoles().contains(new Role(ADMIN_ROLE))) {
+			return ADMIN_ROLE;
+		}
+		
+		return USER_ROLE;
+	}
+
+	@Override
+	public Passenger findPassengerByUserName(String username) {
+		return passengerRepo.findByUserName(username);
+	}
+
+	@Override
+	public List<PassengerDAO> findAll() {
+		
+		List<Passenger> clients = passengerRepo.findAll();
+		List<PassengerDAO> clientsDAO = new ArrayList<>();
+		
+		for (Passenger passenger : clients) {
+			clientsDAO.add(new PassengerDAO(passenger.getId(),
+											passenger.getFirstName(),
+											passenger.getLastName(),
+											passenger.getDateOfBirth(),
+											passenger.getUserName(),
+											passenger.getPassword(),
+											passenger.getActivation(),
+											getRoleByUsername(passenger.getUserName()),
+											passenger.isEnabled()));
+		}
+		
+		return clientsDAO;
+	}
+
+	@Override
+	public Optional<Passenger> findPassengerById(Long id) {
+		
+		return passengerRepo.findById(id);
+	}
+
+	@Override
+	public void save(Passenger passenger) {
+		
+		passengerRepo.save(passenger);
+		
+	}
+
+	@Override
+	public void delete(Passenger passenger) {
+		passengerRepo.delete(passenger);
 	}
 	
 	

@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.giczi.david.flight.service.EncoderService;
 import com.giczi.david.flight.service.PassengerServiceImpl;
 
@@ -54,8 +56,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-     
-		auth.userDetailsService(userDetailsService()).passwordEncoder(EncoderService.passwordEncoder());
+     	
+		//auth.userDetailsService(userDetailsService()).passwordEncoder(EncoderService.getBCryptEncoder());
+		auth.userDetailsService(userDetailsService()).passwordEncoder(new PasswordEncoder() {
+			
+			@Override
+			public boolean matches(CharSequence rawPassword, String encodedPassword) {
+				
+				return rawPassword.equals(EncoderService.decodeByBase64(encodedPassword));
+			}
+			
+			@Override
+			public String encode(CharSequence rawPassword) {
+				
+				return EncoderService.encodeByBase64(String.valueOf(rawPassword));
+			}
+		});
        
     }
 	

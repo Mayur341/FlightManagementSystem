@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layouts/main">
+      layout:decorate="layouts/main_user">
 <head>
 
 <meta charset="UTF-8">
@@ -15,6 +15,7 @@
 <br>
 <div id="registForm">
 <br>
+<a th:href="@{/login}" th:text="#{go.login}"></a>
 <br>
 <form th:action="@{/flight/reg}" method="post" th:object="${user}">
 <h4 th:text="#{firstname}"></h4>
@@ -39,7 +40,7 @@
 <br><br><br>
 <input type="submit" id=regist-submit-btn th:value="#{send}">
 </form><br>
-<a th:href="@{/login}" th:text="#{go.login}"></a>
+
 </div>
 
 <input type="hidden" id="username-correct-msg" th:value="#{username.correct}"/>
