@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.giczi.david.flight.domain.FlightTicket;
+import com.giczi.david.flight.domain.FlightTicketDAO;
 import com.giczi.david.flight.domain.Passenger;
 import com.giczi.david.flight.service.FlightTicketService;
-import com.giczi.david.flight.service.HighlightedFlightTicket;
 import com.giczi.david.flight.service.PassengerService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,8 +42,8 @@ public class ForUserController {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
-		Passenger passenger = passengerService.findByUserName(currentPrincipalName);
-		List<HighlightedFlightTicket> tickets = ticketService.findNotDeletedTicketsByPassengerId(passenger);
+		Passenger passenger = passengerService.findPassengerByUserName(currentPrincipalName);
+		List<FlightTicketDAO> tickets = ticketService.findNotDeletedTicketsByPassengerId(passenger);
 		
 		model.addAttribute("orderedTickets", tickets);
 			
@@ -52,6 +52,11 @@ public class ForUserController {
 	
 	@RequestMapping("/order")
 	public String goOrderPage(Model model) {
+		
+		if("ROLE_ADMIN".equals(passengerService.getRoleByUsername(getAuthUser()))){
+			return "redirect:/admin/clients";
+		}
+		
 		ticketService.init(); //for demo only
 		model.addAttribute("departurePlaces", ticketService.getDeparturePlaces());
 		model.addAttribute("arrivalPlaces", ticketService.getArrivalPlaces());
@@ -65,10 +70,8 @@ public class ForUserController {
 	
 	@RequestMapping("/reserve")
 	public String goOrderPage(@ModelAttribute FlightTicket ticket) {
-		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentPrincipalName = authentication.getName();
-		Passenger passenger = passengerService.findByUserName(currentPrincipalName);
+
+		Passenger passenger = passengerService.findPassengerByUserName(getAuthUser());
 		ticket.setPassenger(passenger);
 		ticketService.saveFlightTicket(ticket);
 		
@@ -89,10 +92,8 @@ public class ForUserController {
 	public String search(@RequestParam(value = "text") String text, Model model) {
 		
 		if( !text.isEmpty()) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentPrincipalName = authentication.getName();
-		Passenger passenger =  passengerService.findByUserName(currentPrincipalName);
-		List<HighlightedFlightTicket> tickets = ticketService.findByTextAndUserName(text, passenger.getId());
+		Passenger passenger =  passengerService.findPassengerByUserName(getAuthUser());
+		List<FlightTicketDAO> tickets = ticketService.findByTextAndUserName(text, passenger.getId());
 		model.addAttribute("txt", text);
 		model.addAttribute("orderedTickets", tickets);
 		}
@@ -104,7 +105,7 @@ public class ForUserController {
 	public String goRegistrationPage(Model model) {
 		
 		model.addAttribute("user", new Passenger());
-		
+	
 		return "regist";
 	}
 	
@@ -136,6 +137,9 @@ public class ForUserController {
 		return "auth/login";
 	}
 	
-	
+	private String getAuthUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return authentication.getName();
+	}
 	
 }

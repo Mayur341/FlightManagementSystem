@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.giczi.david.flight.domain.FlightTicket;
+import com.giczi.david.flight.domain.FlightTicketDAO;
 import com.giczi.david.flight.domain.Passenger;
 import com.giczi.david.flight.repository.FlightTicketRepository;
 
@@ -66,7 +67,7 @@ public class FlightTicketService {
 		
 	}
 
-	public List<HighlightedFlightTicket> findNotDeletedTicketsByPassengerId(Passenger passenger){
+	public List<FlightTicketDAO> findNotDeletedTicketsByPassengerId(Passenger passenger){
 		
 		List<FlightTicket> tickets = ticketRepo.findNotDeletedTicketsByUserId(passenger.getId());
 		
@@ -81,7 +82,7 @@ public class FlightTicketService {
 		ticketRepo.save(ticket);
 		
 	}
-	public List<HighlightedFlightTicket> findByTextAndUserName(String text, Long id){
+	public List<FlightTicketDAO> findByTextAndUserName(String text, Long id){
 		
 		List<FlightTicket> tickets= new ArrayList<>();
 		
@@ -108,4 +109,12 @@ public class FlightTicketService {
 		
 		return highlighter.getHighlightedFlightTicketStore();
 	}
+	
+	public void deleteAllPassengerTickets(Long id) {
+		List<FlightTicket> passengerTickets = ticketRepo.findByPassengerId(id);
+		for (FlightTicket flightTicket : passengerTickets) {
+			ticketRepo.delete(flightTicket);
+		}
+	}
+	
 }

@@ -29,4 +29,5 @@ public interface FlightTicketRepository extends CrudRepository<FlightTicket, Lon
 			+ " or "
 			+ "(passenger_id = :id and deleted = false and price like %:text%)", nativeQuery = true)
 	List<FlightTicket> findByTextAndUserName(@Param("text") String text, Long id);
+	
 }

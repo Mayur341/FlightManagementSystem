@@ -26,9 +26,52 @@ function search(){
 	location.href = location.origin + "/flight/search?text=" + str;
 }
 
-function send(id){
+function cancelTicket(id){
 	
 	location.href = location.origin + "/flight/cancel?id=" + id;
+}
+
+function enterUserAccount(id){
+	
+	location.href = location.origin + "/admin/enter?id=" + id;
+}
+
+function enabledUserAccount(id){
+	location.href = location.origin + "/admin/enabled?id=" + id;
+	}
+	
+function setRole(id){
+	
+	var role = document.getElementById("roleSelect").value;
+	
+	location.href = location.origin + "/admin/role?id=" + id+ "&role=" + role ;
+}
+
+function deleteUser(id){
+	var message = document.getElementById("deleteMessage").value;
+	
+	if(confirm(message)){
+		
+		location.href = location.origin + "/admin/delete?id=" + id;
+		
+	}
+}
+
+function changePassword(){
+	
+	var newPwd = prompt(document.getElementById("newPwdMsg").value);
+	
+	if(newPwd != null){
+		
+		if(isValidPwd(newPwd)){
+			alert(document.getElementById("newPwdCorrect").value);
+		}
+		else{
+			alert(document.getElementById("newPwdError").value);
+		}
+		
+	}
+	
 }
 
 function getArrivalDate(){
@@ -159,8 +202,9 @@ function isValidUsr() {
 		return true;
 	}
 
-function isValidPwd(){
+function isValidPwd(pass){
 	
+	if(pass == null)
 	var pass = document.getElementById("pass").value;
 			
 	if(pass.length < 8) {
