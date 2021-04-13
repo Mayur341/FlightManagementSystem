@@ -1,10 +1,16 @@
 package com.giczi.david.flight.controller;
 
+
+import java.util.Collections;
 import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +54,34 @@ public class ForAdminController {
 	@RequestMapping("enter")
 	public String enterUserAccount(@RequestParam("id") Long id, HttpServletRequest request, Model model) {
 		
+		Optional<Passenger> passenger = passengerService.findPassengerById(id); 
+
+		UsernamePasswordAuthenticationToken token = 
+	            new UsernamePasswordAuthenticationToken(passenger.get().getUserName(), passenger.get().getPassword());
+	    token.setDetails(new WebAuthenticationDetails(request));
+	    AuthenticationProvider authenticationProvider = new AuthenticationProvider() {
+			
+			@Override
+			public boolean supports(Class<?> authentication) {
+				
+				return authentication.equals(UsernamePasswordAuthenticationToken.class);
+			}
+			
+			@Override
+			public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+				
+				String username = authentication.getName();
+		        String password = authentication.getCredentials()
+		            .toString();
+		        
+				return new UsernamePasswordAuthenticationToken
+			              (username, password, Collections.emptyList());
+			}
+		};
 		
+		Authentication auth = authenticationProvider.authenticate(token);
+		
+	    SecurityContextHolder.getContext().setAuthentication(auth);	
 		
 		return "redirect:/flight/order";
 	}
@@ -92,6 +125,7 @@ public class ForAdminController {
 		Optional<Passenger> passenger = passengerService.findPassengerById(id);
 		
 		if(passenger.isPresent()) {
+		passenger.get().setRoles(null);	
 		ticketService.deleteAllPassengerTickets(id);
 		passengerService.delete(passenger.get());
 		}

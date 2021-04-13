@@ -204,9 +204,9 @@ function isValidUsr() {
 
 function isValidPwd(pass){
 	
-	if(pass == null)
-	var pass = document.getElementById("pass").value;
-			
+	if(pass == null){
+	 pass = document.getElementById("pass").value;
+	}		
 	if(pass.length < 8) {
 			return false;
 		}
@@ -267,7 +267,7 @@ function isEqual(){
 
 function isOK(){
 	
-	 if(isValidUsr() && isValidPwd() && isEqual()){
+	 if(isValidUsr() && isValidPwd(null) && isEqual()){
 		
 		document.getElementById("regist-submit-btn").disabled = false;
 	}
