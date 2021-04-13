@@ -40,9 +40,7 @@ public class ForUserController {
 	@RequestMapping("/reservations")
 	public String showAllTickets(Model model) {
 		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentPrincipalName = authentication.getName();
-		Passenger passenger = passengerService.findPassengerByUserName(currentPrincipalName);
+		Passenger passenger = passengerService.findPassengerByUserName(getAuthUser());
 		List<FlightTicketDAO> tickets = ticketService.findNotDeletedTicketsByPassengerId(passenger);
 		
 		model.addAttribute("orderedTickets", tickets);
@@ -54,6 +52,7 @@ public class ForUserController {
 	public String goOrderPage(Model model) {
 		
 		if("ROLE_ADMIN".equals(passengerService.getRoleByUsername(getAuthUser()))){
+			
 			return "redirect:/admin/clients";
 		}
 		
