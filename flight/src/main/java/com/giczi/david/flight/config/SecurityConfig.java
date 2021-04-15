@@ -1,6 +1,7 @@
 package com.giczi.david.flight.config;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.giczi.david.flight.service.EncoderService;
+import com.giczi.david.flight.service.PassengerService;
 import com.giczi.david.flight.service.PassengerServiceImpl;
 
 
@@ -19,7 +21,16 @@ import com.giczi.david.flight.service.PassengerServiceImpl;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	
-	 @Bean
+	private PassengerService passengerService;
+	
+
+	@Autowired
+	 public void setPassengerService(PassengerService passengerService) {
+		this.passengerService = passengerService;
+	}
+
+
+	@Bean
 	  public UserDetailsService userDetailsService() {
 		 return new PassengerServiceImpl();
 	 }
@@ -48,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logoutUrl("/logout")
 			.invalidateHttpSession(true)
 			.deleteCookies("JSESSIONID")
+			.addLogoutHandler(new CustomLogoutHandler(passengerService))
 			.logoutSuccessUrl("/login?logout")
 			.permitAll();
 		

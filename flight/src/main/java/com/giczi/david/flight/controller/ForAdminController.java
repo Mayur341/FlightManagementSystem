@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.giczi.david.flight.domain.Passenger;
+import com.giczi.david.flight.domain.Role;
+import com.giczi.david.flight.repository.RoleRepository;
 import com.giczi.david.flight.service.FlightTicketService;
 import com.giczi.david.flight.service.PassengerService;
 
@@ -26,8 +28,13 @@ public class ForAdminController {
 	
 	private PassengerService passengerService;
 	private FlightTicketService ticketService;
+	private RoleRepository roleRepo;
+ 	
+	@Autowired
+	public void setRoleRepo(RoleRepository roleRepo) {
+		this.roleRepo = roleRepo;
+	}
 
- 
 
 	@Autowired
 	public void setPassengerService(PassengerService passengerService) {
@@ -55,7 +62,7 @@ public class ForAdminController {
 	public String enterUserAccount(@RequestParam("id") Long id, HttpServletRequest request, Model model) {
 		
 		Optional<Passenger> passenger = passengerService.findPassengerById(id); 
-
+		
 		UsernamePasswordAuthenticationToken token = 
 	            new UsernamePasswordAuthenticationToken(passenger.get().getUserName(), passenger.get().getPassword());
 	    token.setDetails(new WebAuthenticationDetails(request));
@@ -82,7 +89,18 @@ public class ForAdminController {
 		Authentication auth = authenticationProvider.authenticate(token);
 		
 	    SecurityContextHolder.getContext().setAuthentication(auth);	
-		
+	    
+	    Role guestRole = roleRepo.findByRole("ROLE_GUEST");
+	    
+	   if(guestRole != null) {
+		   passenger.get().getRoles().add(guestRole);
+	   }
+	   else {
+		   passenger.get().addRoles("ROLE_GUEST");
+	   }
+	    
+		passengerService.save(passenger.get());
+				
 		return "redirect:/flight/order";
 	}
 	
@@ -106,13 +124,21 @@ public class ForAdminController {
 	}
 	
 	@RequestMapping("role")
-	public String setRole(@RequestParam("id") Long id,@RequestParam("role") String role) {
+	public String setRole(@RequestParam("id") Long id, @RequestParam("role") String roleName) {
 		
 		Optional<Passenger> passenger = passengerService.findPassengerById(id);
 		
 		if(passenger.isPresent()) {
-			passenger.get().getRoles().clear();
-			passenger.get().addRoles(role);
+		
+			Role role = roleRepo.findByRole(roleName);
+			
+			if(role != null) {
+				passenger.get().getRoles().clear();
+				passenger.get().getRoles().add(role);
+			}
+			else {
+				passenger.get().addRoles(roleName);
+			}
 			passengerService.save(passenger.get());
 		}
 		
@@ -125,7 +151,7 @@ public class ForAdminController {
 		Optional<Passenger> passenger = passengerService.findPassengerById(id);
 		
 		if(passenger.isPresent()) {
-		passenger.get().setRoles(null);	
+		passenger.get().setRoles(null);
 		ticketService.deleteAllPassengerTickets(id);
 		passengerService.delete(passenger.get());
 		}
