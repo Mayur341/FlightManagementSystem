@@ -7,6 +7,7 @@ import com.giczi.david.flight.domain.Role;
 public interface RoleRepository extends CrudRepository<Role, Long> {
 
 	Role findByRole(String roleName);
+	void deleteById(Long id);
 	
 }
 

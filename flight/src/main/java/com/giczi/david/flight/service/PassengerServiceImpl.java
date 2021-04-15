@@ -22,6 +22,7 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 	private EmailService emailService;
 	public static String USER_ROLE = "ROLE_USER";
 	public static String ADMIN_ROLE = "ROLE_ADMIN";
+	public static String GUEST_ROLE = "ROLE_GUEST";
 	
 	@Autowired
 	public void setPassengerRepo(PassengerRepository passengerRepo) {
@@ -71,7 +72,7 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 		passengerToRegister.setEnabled(false);
 		String activationKey = generatedKey();
 		passengerToRegister.setActivation(activationKey);
-		//emailService.sendMeassage(passengerToRegister.getUserName(), passengerToRegister.getFirstName(), passengerToRegister.getLastName(), activationKey);
+		emailService.sendMeassage(passengerToRegister.getUserName(), passengerToRegister.getFirstName(), passengerToRegister.getLastName(), activationKey);
 		//passengerToRegister.setPassword(EncoderService.getBCryptEncoder().encode(passengerToRegister.getPassword()));
 		passengerToRegister.setPassword(EncoderService.encodeByBase64(passengerToRegister.getPassword()));
 		passengerRepo.save(passengerToRegister);
@@ -112,7 +113,10 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 		
 		Passenger passenger = passengerRepo.findByUserName(username);
 		
-		if(passenger.getRoles().contains(new Role(ADMIN_ROLE))) {
+		if(passenger.getRoles().contains(new Role(GUEST_ROLE))) {
+			return GUEST_ROLE;
+		}
+		else if(passenger.getRoles().contains(new Role(ADMIN_ROLE))) {
 			return ADMIN_ROLE;
 		}
 		
