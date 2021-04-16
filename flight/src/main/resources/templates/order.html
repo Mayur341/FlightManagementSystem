@@ -52,6 +52,7 @@ th:value="${plane}" th:text="${plane}">
 </form>
 </div>
 
+<input type="hidden" th:if="${param.changedPass}"  th:value="#{password.changed}" id="changePassMsg">
 </div>
 
 </body>

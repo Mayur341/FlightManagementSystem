@@ -21,6 +21,8 @@
 <br><br>
 <div id="auth" sec:authorize="isAuthenticated()">
  <span th:text="#{auth}"></span><b><span sec:authentication="name"></span></b></div>
+ 
+ 
  <div id="options" sec:authorize="isAuthenticated()">
  <a th:href="@{/flight/order}" th:text="#{order.form}"></a>&nbsp;&nbsp;&nbsp;
  <a th:href="@{/flight/reservations}" th:text="#{orders}"></a>&nbsp;&nbsp;&nbsp;
@@ -30,6 +32,10 @@
  <input type="hidden" th:value="#{password.error}" id="newPwdError">
  <input type="hidden" th:value="#{password.correct}" id="newPwdCorrect"> 
 </div>
+
+<form th:action="@{/flight/changePassword}" method="post" id="changePassForm">
+<input type="hidden" name="pass" id="changePass"/>
+</form>
 
 <div layout:fragment="auth/login"></div>
 <div layout:fragment="reservations"></div>
