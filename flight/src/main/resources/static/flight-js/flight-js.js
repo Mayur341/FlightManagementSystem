@@ -68,7 +68,6 @@ function changePassword(){
 	if(newPwd != null){
 		
 		if(isValidPwd(newPwd)){
-			//alert(document.getElementById("newPwdCorrect").value);
 			
 			document.getElementById("changePass").value = newPwd;
 			document.getElementById("changePassForm").submit();
