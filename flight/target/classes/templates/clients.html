@@ -38,19 +38,19 @@
 	
 	<td th:utext="${client.activation}" th:classappend="${clientStat.odd} ? '' : 'colored'"></td>
 	
-	<td th:if="${client.password != 'admin'}" th:classappend="${clientStat.odd} ? '' : 'colored'"><a th:onclick="'enabledUserAccount(\'' + ${client.id} + '\');'" th:utext="${client.enabled}" ></a></td>
-	<td th:if="${client.password == 'admin'}" th:classappend="${clientStat.odd} ? '' : 'colored'">-</td>
+	<td th:if="${client.username != 'admin'}" th:classappend="${clientStat.odd} ? '' : 'colored'"><a th:onclick="'enabledUserAccount(\'' + ${client.id} + '\');'" th:utext="${client.enabled}" ></a></td>
+	<td th:if="${client.username == 'admin'}" th:classappend="${clientStat.odd} ? '' : 'colored'">-</td>
 	
 	<td th:classappend="${clientStat.odd} ? '' : 'colored'"><a th:text="#{orders}"></a></td>
-	<td th:if="${client.password != 'admin'}" th:classappend="${clientStat.odd} ? '' : 'colored'">
+	<td th:if="${client.username != 'admin'}" th:classappend="${clientStat.odd} ? '' : 'colored'">
 	<select th:onchange="'setRole(\'' + ${client.id} + '\');'" id="roleSelect">
 	<option th:each="role : ${client.ROLES}" th:if="${client.role == role}" th:text="${role}" selected="selected"></option>
 	<option th:each="role : ${client.ROLES}" th:unless="${client.role == role}" th:text="${role}"></option>
 	</select>
 	</td>
-	<td th:if="${client.password == 'admin'}" th:classappend="${clientStat.odd} ? '' : 'colored'">ADMIN</td>
-	<td th:if="${client.password != 'admin'}" th:classappend="${clientStat.odd} ? '' : 'colored'"><a th:text="#{del}" th:onclick="'deleteUser(\'' + ${client.id} + '\');'"></a></td>
-	<td th:if="${client.password == 'admin'}" th:classappend="${clientStat.odd} ? '' : 'colored'">-</td>
+	<td th:if="${client.username == 'admin'}" th:classappend="${clientStat.odd} ? '' : 'colored'">ADMIN</td>
+	<td th:if="${client.username != 'admin'}" th:classappend="${clientStat.odd} ? '' : 'colored'"><a th:text="#{del}" th:onclick="'deleteUser(\'' + ${client.id} + '\');'"></a></td>
+	<td th:if="${client.username == 'admin'}" th:classappend="${clientStat.odd} ? '' : 'colored'">-</td>
 	</tr>
 
 </table>

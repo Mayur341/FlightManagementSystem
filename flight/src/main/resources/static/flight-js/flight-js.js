@@ -2,6 +2,10 @@
  * 
  */
 
+if(document.getElementById("changePassMsg") != null){
+	alert(document.getElementById("changePassMsg").value);
+}
+
 if(document.getElementById("needful-activation") != null)
 alert(document.getElementById("needful-activation").value);
 
@@ -64,7 +68,11 @@ function changePassword(){
 	if(newPwd != null){
 		
 		if(isValidPwd(newPwd)){
-			alert(document.getElementById("newPwdCorrect").value);
+			//alert(document.getElementById("newPwdCorrect").value);
+			
+			document.getElementById("changePass").value = newPwd;
+			document.getElementById("changePassForm").submit();
+			
 		}
 		else{
 			alert(document.getElementById("newPwdError").value);

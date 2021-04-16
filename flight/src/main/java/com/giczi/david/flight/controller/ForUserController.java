@@ -16,11 +16,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.giczi.david.flight.domain.FlightTicket;
 import com.giczi.david.flight.domain.FlightTicketDAO;
 import com.giczi.david.flight.domain.Passenger;
+import com.giczi.david.flight.service.EncoderService;
 import com.giczi.david.flight.service.FlightTicketService;
 import com.giczi.david.flight.service.PassengerService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
@@ -134,6 +137,17 @@ public class ForUserController {
 		model.addAttribute("needfulActivation", true);
 		
 		return "auth/login";
+	}
+	
+	@PostMapping("/changePassword")
+	public String changePassword(HttpServletRequest request, RedirectAttributes attr) {
+		
+		Passenger passenger = passengerService.findPassengerByUserName(getAuthUser());
+		passenger.setPassword(EncoderService.encodeByBase64(request.getParameter("pass")));
+		passengerService.save(passenger);
+		attr.addAttribute("changedPass", true);
+		
+		return "redirect:/flight/order";
 	}
 	
 	private String getAuthUser() {
