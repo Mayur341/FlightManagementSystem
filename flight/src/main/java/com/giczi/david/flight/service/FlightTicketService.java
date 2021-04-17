@@ -71,7 +71,7 @@ public class FlightTicketService {
 		
 		List<FlightTicket> tickets = ticketRepo.findNotDeletedTicketsByUserId(passenger.getId());
 		
-		return new Highlighter().createInputFlightTicketStore(tickets);
+		return new FlightTicketHighlighter().createInputFlightTicketStore(tickets);
 	}
 	
 	public void cancelTicket(Long id) {
@@ -102,8 +102,8 @@ public class FlightTicketService {
 			tickets = ticketRepo.findByTextAndUserName(text.toLowerCase(), id);
 		}
 		
-		Highlighter highlighter = new Highlighter();
-		highlighter.setSearchedExpression(text.toLowerCase());
+		FlightTicketHighlighter highlighter = new FlightTicketHighlighter();
+		highlighter.setSearchedExpression(text);
 		highlighter.createInputFlightTicketStore(tickets);
 		highlighter.createHighlightedFlightTicketStore();
 		

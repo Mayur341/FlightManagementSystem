@@ -19,6 +19,8 @@ import com.giczi.david.flight.domain.Passenger;
 import com.giczi.david.flight.service.EncoderService;
 import com.giczi.david.flight.service.FlightTicketService;
 import com.giczi.david.flight.service.PassengerService;
+import com.giczi.david.flight.service.RoleService;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -32,8 +34,13 @@ public class ForUserController {
 
 	private PassengerService passengerService;
 	private FlightTicketService ticketService;
+	private RoleService roleService;
 	
-		
+	@Autowired	
+	public void setRoleService(RoleService roleService) {
+		this.roleService = roleService;
+	}
+
 	@Autowired
 	public ForUserController(PassengerService passengerService, FlightTicketService ticketService) {
 		this.passengerService = passengerService;
@@ -54,7 +61,8 @@ public class ForUserController {
 	@RequestMapping("/order")
 	public String goOrderPage(Model model) {
 		
-		if("ROLE_ADMIN".equals(passengerService.getRoleByUsername(getAuthUser()))){
+		
+		if("ROLE_ADMIN".equals(roleService.getPassengerRoleAsString(passengerService.findPassengerByUserName(getAuthUser()).getRoles()))){
 			
 			return "redirect:/admin/clients";
 		}
@@ -93,11 +101,14 @@ public class ForUserController {
 	@RequestMapping("/search")
 	public String search(@RequestParam(value = "text") String text, Model model) {
 		
-		if( !text.isEmpty()) {
-		Passenger passenger =  passengerService.findPassengerByUserName(getAuthUser());
-		List<FlightTicketDAO> tickets = ticketService.findByTextAndUserName(text, passenger.getId());
-		model.addAttribute("txt", text);
-		model.addAttribute("orderedTickets", tickets);
+		if(text.isEmpty()) {
+		return "redirect:/flight/reservations";
+		}
+		else{
+			Passenger passenger =  passengerService.findPassengerByUserName(getAuthUser());
+			List<FlightTicketDAO> tickets = ticketService.findByTextAndUserName(text, passenger.getId());
+			model.addAttribute("txt", text);
+			model.addAttribute("orderedTickets", tickets);
 		}
 		
 		return "reservations";
