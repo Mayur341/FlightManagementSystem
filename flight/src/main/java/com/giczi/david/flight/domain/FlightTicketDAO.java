@@ -1,5 +1,9 @@
 package com.giczi.david.flight.domain;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import com.giczi.david.flight.service.LangService;
+
 public class FlightTicketDAO {
 
 	
@@ -21,9 +25,26 @@ public class FlightTicketDAO {
 	public String getDepartureDate() {
 		return departureDate;
 	}
+	public void setDepartureDate(Date departureDate) {
+		switch (LangService.getLanguageByLocale()) {
+		case 1:
+			this.departureDate = new SimpleDateFormat("yyyy-MM-dd").format(departureDate);
+			
+			break;
+		case 2:
+			this.departureDate = new SimpleDateFormat("dd-MM-yyyy").format(departureDate);
+			
+			break;
+		default:
+			this.departureDate = new SimpleDateFormat("yyyy-MM-dd").format(departureDate);
+			
+		}
+	}
+	
 	public void setDepartureDate(String departureDate) {
 		this.departureDate = departureDate;
 	}
+	
 	public String getDeparturePlace() {
 		return departurePlace;
 	}
@@ -33,9 +54,28 @@ public class FlightTicketDAO {
 	public String getArrivalDate() {
 		return arrivalDate;
 	}
+	public void setArrivalDate(Date arrivalDate) {
+		
+		switch (LangService.getLanguageByLocale()) {
+		case 1:
+			this.arrivalDate = new SimpleDateFormat("yyyy-MM-dd").format(arrivalDate);
+			
+			break;
+		case 2:
+			this.arrivalDate = new SimpleDateFormat("dd-MM-yyyy").format(arrivalDate);
+			
+			break;
+		default:
+			this.arrivalDate = new SimpleDateFormat("yyyy-MM-dd").format(arrivalDate);
+			
+		}
+		
+	}
+	
 	public void setArrivalDate(String arrivalDate) {
 		this.arrivalDate = arrivalDate;
 	}
+	
 	public String getArrivalPlace() {
 		return arrivalPlace;
 	}

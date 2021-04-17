@@ -1,12 +1,11 @@
 package com.giczi.david.flight.domain;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import com.giczi.david.flight.service.EncoderService;
 import com.giczi.david.flight.service.LangService;
-import com.giczi.david.flight.service.PassengerServiceImpl;
+
 
 public class PassengerDAO {
 
@@ -21,36 +20,7 @@ public class PassengerDAO {
 	private boolean enabled;
 	private List<String> ROLES;
 	
-	public PassengerDAO(Long id, String firstName, String lastName, Date dateOfBirth, String username, String password,
-			String activation, String role, boolean enabled) {
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		switch (LangService.getLanguageByLocale()) {
-		case 1:
-			this.dateOfBirth = new SimpleDateFormat("yyyy-MM-dd").format(dateOfBirth);
-			break;
-		case 2:
-			this.dateOfBirth = new SimpleDateFormat("dd-MM-yyyy").format(dateOfBirth);
-			break;
-		default:
-			this.dateOfBirth = new SimpleDateFormat("yyyy-MM-dd").format(dateOfBirth);
-		}
-		
-		this.username = username;
-		
-		this.password = EncoderService.decodeByBase64(password);
-		if(activation == null) {
-			this.activation = "-";
-		}
-		else {
-			this.activation = activation;
-		}
-		
-		this.role = role;
-		this.enabled = enabled;
-		this.ROLES = Arrays.asList(PassengerServiceImpl.ADMIN_ROLE, PassengerServiceImpl.USER_ROLE);
-	}
+
 	public Long getId() {
 		return id;
 	}
@@ -73,9 +43,25 @@ public class PassengerDAO {
 	public String getDateOfBirth() {
 		return dateOfBirth;
 	}
+	public void setDateOfBirth(Date dateOfBirth) {
+		
+		switch (LangService.getLanguageByLocale()) {
+		case 1:
+			this.dateOfBirth = new SimpleDateFormat("yyyy-MM-dd").format(dateOfBirth);
+			break;
+		case 2:
+			this.dateOfBirth = new SimpleDateFormat("dd-MM-yyyy").format(dateOfBirth);
+			break;
+		default:
+			this.dateOfBirth = new SimpleDateFormat("yyyy-MM-dd").format(dateOfBirth);
+		}
+		
+	}
+	
 	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
+	
 	public String getUsername() {
 		return username;
 	}
@@ -86,14 +72,23 @@ public class PassengerDAO {
 		return password;
 	}
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = EncoderService.decodeByBase64(password);
+	}
+	
+	public void setEncodedPassword(String encodedPassword) {
+		this.password = encodedPassword;
 	}
 	
 	public String getActivation() {
 		return activation;
 	}
 	public void setActivation(String activation) {
-		this.activation = activation;
+		if(activation == null) {
+			this.activation = "-";
+		}
+		else {
+			this.activation = activation;	
+		}
 	}
 	
 	public String getRole() {

@@ -2,6 +2,7 @@ package com.giczi.david.flight.controller;
 
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.giczi.david.flight.domain.Passenger;
+import com.giczi.david.flight.domain.PassengerDAO;
 import com.giczi.david.flight.domain.Role;
 import com.giczi.david.flight.repository.RoleRepository;
 import com.giczi.david.flight.service.FlightTicketService;
@@ -81,6 +83,15 @@ public class ForAdminController {
 		        String password = authentication.getCredentials()
 		            .toString();
 		        
+		       Role guestRole = roleRepo.findByRole("ROLE_GUEST");
+			    
+		 	   if(guestRole != null) {
+		 		   passenger.get().getRoles().add(guestRole);
+		 	   }
+		 	   else {
+		 		   passenger.get().addRoles("ROLE_GUEST");
+		 	   }
+		            
 				return new UsernamePasswordAuthenticationToken
 			              (username, password, Collections.emptyList());
 			}
@@ -90,14 +101,7 @@ public class ForAdminController {
 		
 	    SecurityContextHolder.getContext().setAuthentication(auth);	
 	    
-	    Role guestRole = roleRepo.findByRole("ROLE_GUEST");
 	    
-	   if(guestRole != null) {
-		   passenger.get().getRoles().add(guestRole);
-	   }
-	   else {
-		   passenger.get().addRoles("ROLE_GUEST");
-	   }
 	    
 		passengerService.save(passenger.get());
 				
@@ -157,5 +161,21 @@ public class ForAdminController {
 		}
 		
 		return "redirect:/admin/clients";
+	}
+	
+	@RequestMapping("/search")
+	public String search(@RequestParam(value = "text") String text, Model model) {
+		
+		
+		if(text.isEmpty()) {
+			return "redirect:/admin/clients";
+		}else {
+			List<PassengerDAO> clients = passengerService.findByText(text);
+			model.addAttribute("txt", text);
+			model.addAttribute("clients", clients);	
+			
+		}
+		
+		return "clients";
 	}
 }

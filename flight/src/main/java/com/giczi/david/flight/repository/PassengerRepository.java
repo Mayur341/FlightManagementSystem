@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import com.giczi.david.flight.domain.Passenger;
 
 @Repository
@@ -18,5 +17,19 @@ public interface PassengerRepository extends CrudRepository<Passenger, Long> {
 	Passenger findByUserName(String username);
 	Passenger findByActivation(String code);
 	Optional<Passenger> findById(Long id);
+	@Query(value = "select * from passengers where"
+			+ " first_name like %:text%"
+			+ " or "
+			+ "last_name like %:text%" 
+			+ " or "
+			+ "date_of_birth like %:text%"
+			+ " or "
+			+ "user_name like %:text%"
+			+ " or "
+			+ "activation like %:text%", nativeQuery = true)
+	List<Passenger> findByText(@Param("text") String text);
+	@Query(value = "select * from passengers where password like %:text%", nativeQuery = true)
+	List<Passenger> findByPassword(@Param("text") String text);
+	
 	
 }

@@ -25,9 +25,14 @@ document.getElementById("search-field").value = searchValue;
 }
 }
 
-function search(){
+function searchTicket(){
 	var str = document.getElementById("search-field").value;
 	location.href = location.origin + "/flight/search?text=" + str;
+}
+
+function searchPassenger(){
+	var str = document.getElementById("search-field").value;
+	location.href = location.origin + "/admin/search?text=" + str;
 }
 
 function cancelTicket(id){

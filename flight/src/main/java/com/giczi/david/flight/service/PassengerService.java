@@ -10,10 +10,10 @@ public interface PassengerService {
 
 	boolean registerPassenger(Passenger passengerToRegister);
 	boolean userActivation(String code);
-	String getRoleByUsername(String username);
 	Passenger findPassengerByUserName(String username);
 	List<PassengerDAO> findAll();
 	Optional<Passenger> findPassengerById(Long id);
 	void save(Passenger passenger);
 	void delete(Passenger passenger);
+	List<PassengerDAO> findByText(String text);
 }

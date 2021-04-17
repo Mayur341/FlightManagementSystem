@@ -1,4 +1,5 @@
 package com.giczi.david.flight.service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,17 +13,13 @@ import com.giczi.david.flight.domain.Passenger;
 import com.giczi.david.flight.domain.PassengerDAO;
 import com.giczi.david.flight.domain.Role;
 import com.giczi.david.flight.repository.PassengerRepository;
-import com.giczi.david.flight.repository.RoleRepository;
 
 @Service
 public class PassengerServiceImpl implements PassengerService, UserDetailsService {
 	
 	private PassengerRepository passengerRepo;
-	private RoleRepository roleRepo;
+	private RoleService roleService;
 	private EmailService emailService;
-	public static String USER_ROLE = "ROLE_USER";
-	public static String ADMIN_ROLE = "ROLE_ADMIN";
-	public static String GUEST_ROLE = "ROLE_GUEST";
 	
 	@Autowired
 	public void setPassengerRepo(PassengerRepository passengerRepo) {
@@ -30,8 +27,8 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 	}
 	
 	@Autowired
-	public void setRoleRepo(RoleRepository roleRepo) {
-		this.roleRepo = roleRepo;
+	public void setRoleService(RoleService roleService) {
+		this.roleService = roleService;
 	}
 
 	@Autowired
@@ -60,13 +57,13 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 			return false;
 		}
 		
-		Role userRole = roleRepo.findByRole(USER_ROLE);
+		Role userRole = roleService.findByRole("ROLE_USER");
 		
 		if(userRole != null) {
 			passengerToRegister.getRoles().add(userRole);
 		}
 		else {
-			passengerToRegister.addRoles(USER_ROLE);
+			passengerToRegister.addRoles("ROLE_USER");
 		}
 		
 		passengerToRegister.setEnabled(false);
@@ -108,20 +105,6 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 		return true;
 	}
 
-	@Override
-	public String getRoleByUsername(String username) {
-		
-		Passenger passenger = passengerRepo.findByUserName(username);
-		
-		if(passenger.getRoles().contains(new Role(GUEST_ROLE))) {
-			return GUEST_ROLE;
-		}
-		else if(passenger.getRoles().contains(new Role(ADMIN_ROLE))) {
-			return ADMIN_ROLE;
-		}
-		
-		return USER_ROLE;
-	}
 
 	@Override
 	public Passenger findPassengerByUserName(String username) {
@@ -132,22 +115,25 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 	public List<PassengerDAO> findAll() {
 		
 		List<Passenger> clients = passengerRepo.findAll();
-		List<PassengerDAO> clientsDAO = new ArrayList<>();
+		List<PassengerDAO> passengerDAOStore = new ArrayList<>();
 		
 		for (Passenger passenger : clients) {
-			clientsDAO.add(new PassengerDAO(passenger.getId(),
-											passenger.getFirstName(),
-											passenger.getLastName(),
-											passenger.getDateOfBirth(),
-											passenger.getUserName(),
-											passenger.getPassword(),
-											passenger.getActivation(),
-											getRoleByUsername(passenger.getUserName()),
-											passenger.isEnabled()));
+			PassengerDAO passengerDAO = new PassengerDAO();
+			passengerDAO.setId(passenger.getId());
+			passengerDAO.setFirstName(passenger.getFirstName());
+			passengerDAO.setLastName(passenger.getLastName());
+			passengerDAO.setDateOfBirth(passenger.getDateOfBirth());
+			passengerDAO.setUsername(passenger.getUserName());
+			passengerDAO.setPassword(passenger.getPassword());
+			passengerDAO.setActivation(passenger.getActivation());
+			passengerDAO.setRole(roleService.getPassengerRoleAsString(passenger.getRoles()));
+			passengerDAO.setEnabled(passenger.isEnabled());
+			passengerDAO.setROLES(roleService.getRoleStringStore());
+			passengerDAOStore.add(passengerDAO);
 		}
 		
-		return clientsDAO;
-	}
+		return passengerDAOStore;
+	};
 
 	@Override
 	public Optional<Passenger> findPassengerById(Long id) {
@@ -165,6 +151,38 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 	@Override
 	public void delete(Passenger passenger) {
 		passengerRepo.delete(passenger);
+	}
+
+	@Override
+	public List<PassengerDAO> findByText(String text) {
+		
+		List<Passenger> passengers= new ArrayList<>();
+		
+		if(Character.isLetter(text.charAt(0)) && Character.isUpperCase(text.charAt(0))) {
+			text = text.charAt(0) + text.substring(1, text.length()).toLowerCase();
+		}
+		else if(Character.isLetter(text.charAt(0)) && Character.isLowerCase(text.charAt(0))) {
+			text = String.valueOf(text.charAt(0)).toUpperCase() + text.substring(1, text.length()).toLowerCase();
+		}
+		
+		passengers = passengerRepo.findByText(text);
+		
+		if(passengers.isEmpty()) {
+		passengers= passengerRepo.findByText(text.toUpperCase());
+		}
+		if(passengers.isEmpty()) {
+		passengers.addAll(passengerRepo.findByText(text.toLowerCase()));
+		}
+		
+		passengers.addAll(passengerRepo.findByPassword(EncoderService.encodeByBase64(text)));
+		
+		PassengerHighlighter highlighter = new PassengerHighlighter();
+		highlighter.setSearchedExpression(text);
+		highlighter.createInputPassengerStore(passengers, roleService);
+		highlighter.createHighlightedPassengerStore();
+		
+		return highlighter.getHighlightedPassengertStore();
+	
 	}
 	
 	
