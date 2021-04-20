@@ -27,7 +27,7 @@ public class FlightTicketHighlighter {
 			highlightedFlightTicket.setArrivalDate(flightTicket.getArrivalDate());
 			highlightedFlightTicket.setArrivalPlace(flightTicket.getArrivalPlace());
 			highlightedFlightTicket.setFlightNumber(flightTicket.getFlightNumber());
-			highlightedFlightTicket.setPrice(String.valueOf(flightTicket.getPrice()));
+			highlightedFlightTicket.setPrice(flightTicket.getPrice());
 			highlightedFlightTicketStore.add(highlightedFlightTicket);
 		}
 		
@@ -76,7 +76,7 @@ public class FlightTicketHighlighter {
 			if(highlightedFlightTicketStore.get(i).getPrice().contains(searchedExpression)) {
 				createBeginIndexStore(highlightedFlightTicketStore.get(i).getPrice());
 				createEndIndexStore();
-				highlightedFlightTicketStore.get(i).setPrice(createHighlightedString(highlightedFlightTicketStore.get(i).getPrice()));
+				highlightedFlightTicketStore.get(i).setPriceAsString(createHighlightedString(highlightedFlightTicketStore.get(i).getPrice()));
 			}
 		}
 

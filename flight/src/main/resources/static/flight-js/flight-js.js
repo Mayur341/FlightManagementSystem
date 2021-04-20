@@ -27,17 +27,34 @@ document.getElementById("search-field").value = searchValue;
 
 function searchTicket(){
 	var str = document.getElementById("search-field").value;
-	location.href = location.origin + "/flight/search?text=" + str;
+	var lang = document.getElementById("langSelect").value.toLowerCase();
+	location.href = location.origin + "/flight/ticket/search?text=" + str + "&lang=" + lang;
 }
 
 function searchPassenger(){
 	var str = document.getElementById("search-field").value;
-	location.href = location.origin + "/admin/search?text=" + str;
+	var lang = document.getElementById("langSelect").value.toLowerCase();
+	location.href = location.origin + "/admin/passenger/search?text=" + str + "&lang=" + lang;
 }
 
 function cancelTicket(id){
 	
 	location.href = location.origin + "/flight/cancel?id=" + id;
+}
+
+function activateTicket(id){
+	var lang = document.getElementById("langSelect").value.toLowerCase();
+	location.href = location.origin + "/admin/activate?id=" + id + "&lang=" + lang + "&act=yes";
+}
+
+function deleteTicket(id){
+	var lang = document.getElementById("langSelect").value.toLowerCase();
+	var message = document.getElementById("deleteTicket").value;
+	
+	if(confirm(message)){
+	
+	location.href = location.origin + "/admin/ticket/delete?id=" + id + "&lang=" + lang;
+	}
 }
 
 function enterUserAccount(id){
@@ -53,7 +70,7 @@ function setRole(id){
 	
 	var role = document.getElementById("roleSelect").value;
 	
-	location.href = location.origin + "/admin/role?id=" + id+ "&role=" + role ;
+	location.href = location.origin + "/admin/role?id=" + id+ "&role=" + role;
 }
 
 function deleteUser(id){
@@ -61,9 +78,15 @@ function deleteUser(id){
 	
 	if(confirm(message)){
 		
-		location.href = location.origin + "/admin/delete?id=" + id;
+		location.href = location.origin + "/admin/passenger/delete?id=" + id;
 		
 	}
+}
+
+function goReservations(id){
+	
+	var lang = document.getElementById("langSelect").value.toLowerCase();
+	location.href = location.origin + "/admin/reservations?id=" + id + "&lang=" + lang;
 }
 
 function changePassword(){
@@ -159,8 +182,22 @@ document.getElementById("passagain").addEventListener("blur", function validate(
 function setLanguage() {
 	
 	var lang = document.getElementById("langSelect").value.toLowerCase();
-
+		
+	if("/flight/reg" === location.pathname){
+		location.href = "/login?lang=" + lang;
+	}
+	else if(location.href.includes("/admin/reservation") ||
+			location.href.includes("/flight/ticket/search")     ||
+			location.href.includes("/admin/passenger/search")
+			){
+		
+		var url = location.href.split("&");
+		location.href = url[0] + "&lang=" + lang;
+	}
+	else{
+		
 	location.href = "?lang=" + lang;
+	}
 }
 
 function showInfoMessage(){

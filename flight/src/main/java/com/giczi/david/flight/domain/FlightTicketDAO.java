@@ -14,7 +14,7 @@ public class FlightTicketDAO {
 	private String arrivalPlace;
 	private String flightNumber;
 	private String price;
-	
+	private boolean cancelled;
 	
 	public Long getId() {
 		return id;
@@ -91,10 +91,19 @@ public class FlightTicketDAO {
 	public String getPrice() {
 		return price;
 	}
-	public void setPrice(String price) {
-		this.price = price;
+	public void setPrice(int price) {
+		this.price = String.valueOf(price);
 	}
 	
+	public void setPriceAsString(String price) {
+		this.price = price;
+	}
+	public boolean isCancelled() {
+		return cancelled;
+	}
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
+	}
 	
 	
 }

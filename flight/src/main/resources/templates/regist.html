@@ -11,11 +11,12 @@
 
 <div layout:fragment="regist">
 <h1 th:text="#{registration}"></h1>
+<a th:href="@{/login}" th:text="#{go.login}"></a>
 <hr>
 <br>
 <div id="registForm">
 <br>
-<a th:href="@{/login}" th:text="#{go.login}"></a>
+
 <br>
 <form th:action="@{/flight/reg}" method="post" th:object="${user}">
 <h4 th:text="#{firstname}"></h4>

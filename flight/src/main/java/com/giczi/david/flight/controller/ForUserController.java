@@ -98,8 +98,8 @@ public class ForUserController {
 	
 	
 	
-	@RequestMapping("/search")
-	public String search(@RequestParam(value = "text") String text, Model model) {
+	@RequestMapping("/ticket/search")
+	public String search(@RequestParam(value = "text") String text, @RequestParam(value="lang") String lang, Model model) {
 		
 		if(text.isEmpty()) {
 		return "redirect:/flight/reservations";
