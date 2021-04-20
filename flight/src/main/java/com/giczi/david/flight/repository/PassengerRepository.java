@@ -31,5 +31,4 @@ public interface PassengerRepository extends CrudRepository<Passenger, Long> {
 	@Query(value = "select * from passengers where password like %:text%", nativeQuery = true)
 	List<Passenger> findByPassword(@Param("text") String text);
 	
-	
 }

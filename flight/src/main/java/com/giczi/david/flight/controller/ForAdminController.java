@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.giczi.david.flight.domain.FlightTicket;
+import com.giczi.david.flight.domain.FlightTicketDAO;
 import com.giczi.david.flight.domain.Passenger;
 import com.giczi.david.flight.domain.PassengerDAO;
 import com.giczi.david.flight.domain.Role;
@@ -149,7 +152,7 @@ public class ForAdminController {
 		return "redirect:/admin/clients";
 	}
 	
-	@RequestMapping("delete")
+	@RequestMapping("passenger/delete")
 	public String deleteUserAccount(@RequestParam("id") Long id) {
 		
 		Optional<Passenger> passenger = passengerService.findPassengerById(id);
@@ -163,8 +166,8 @@ public class ForAdminController {
 		return "redirect:/admin/clients";
 	}
 	
-	@RequestMapping("/search")
-	public String search(@RequestParam(value = "text") String text, Model model) {
+	@RequestMapping("/passenger/search")
+	public String search(@RequestParam(value = "text") String text, @RequestParam("lang") String lang, Model model) {
 		
 		
 		if(text.isEmpty()) {
@@ -177,5 +180,60 @@ public class ForAdminController {
 		}
 		
 		return "clients";
+	}
+		
+	
+	@RequestMapping("/reservations")
+	public String goClientReservations(@RequestParam("id") Long id, @RequestParam("lang") String lang, Model model) {
+		
+		
+		Optional<Passenger> passenger = passengerService.findPassengerById(id);
+		
+		if(passenger.isPresent()) {
+			PassengerDAO pass = new PassengerDAO();
+			pass.setFirstName(passenger.get().getFirstName());
+			pass.setLastName(passenger.get().getLastName());
+			pass.setDateOfBirth(passenger.get().getDateOfBirth());
+			pass.setUsername(passenger.get().getUserName());
+			pass.setPassword(passenger.get().getPassword());
+			model.addAttribute("client", pass);
+			List<FlightTicketDAO> tickets = ticketService.findTicketsByPassengerId(passenger.get());
+			model.addAttribute("orderedTickets", tickets);
+		}
+		
+		return "client_reservations";
+	}
+	
+	@RequestMapping("activate")
+	public String activateTicket(@RequestParam("id") Long id, @RequestParam("lang") String lang, @RequestParam("act") String activate, Model model) {
+		
+		Optional<FlightTicket> ticket = ticketService.findById(id);
+		Long ordererId = ticket.get().getPassenger().getId();
+		
+		if(ticket.isPresent()) {
+			
+			if("yes".equals(activate) && ticket.get().isDeleted()) {
+				ticket.get().setDeleted(false);
+			}
+			else if("yes".equals(activate) && !ticket.get().isDeleted()) {
+				ticket.get().setDeleted(true);
+			}
+			ticketService.saveFlightTicket(ticket.get());
+		}
+		
+		return  "redirect:/admin/reservations?id=" + ordererId + "&lang=" + LocaleContextHolder.getLocale();
+	}
+	
+	@RequestMapping("ticket/delete")
+	public String deleteTicket(@RequestParam("id") Long id, @RequestParam("lang") String lang, Model model) {
+		
+		Optional<FlightTicket> ticket = ticketService.findById(id);
+		Long ordererId = ticket.get().getPassenger().getId();
+		
+		if(ticket.isPresent()) {
+			ticketService.deleteFlightTicket(ticket.get());
+		}
+		
+		return "redirect:/admin/reservations?id=" + ordererId + "&lang=" + LocaleContextHolder.getLocale();
 	}
 }

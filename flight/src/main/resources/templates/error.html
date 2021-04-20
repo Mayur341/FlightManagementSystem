@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layouts/main_user">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/flight-css/flight.css}">
 <title th:text="#{title}"></title>
 </head>
 <body>
-
-<div layout:fragment="err">
+<select id="langSelect" onchange="setLanguage()">
+<option th:value="#{lang}" th:text="#{lang}"></option>
+<option th:if="#{lang} == 'HU'">EN</option>
+<option th:if="#{lang} == 'EN'">HU</option>
+</select>
+<br>
+<br>
+<br>
 <h1 th:text="#{error.page}"></h1>
 <div class="error"><br>
 <h4 th:text="${status}"></h4>
@@ -17,6 +23,7 @@
 <h4 th:text="${#dates.format(timestamp, 'yyyy-MMM-dd HH:mm')}"></h4><br>
 <a th:href="@{/logout}" th:text="#{go.login}"></a>
 </div>
-</div>
+
 </body>
+<script type="text/javascript" th:src="@{/flight-js/flight-js.js}"></script>
 </html>

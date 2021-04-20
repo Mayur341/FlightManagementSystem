@@ -41,7 +41,8 @@
 	<td th:if="${client.id != 1}" th:classappend="${clientStat.odd} ? '' : 'colored'"><a th:onclick="'enabledUserAccount(\'' + ${client.id} + '\');'" th:utext="${client.enabled}" ></a></td>
 	<td th:if="${client.id == 1}" th:classappend="${clientStat.odd} ? '' : 'colored'">-</td>
 	
-	<td th:classappend="${clientStat.odd} ? '' : 'colored'"><a th:text="#{orders}"></a></td>
+	<td th:classappend="${clientStat.odd} ? '' : 'colored'"><a th:onclick="'goReservations(\'' + ${client.id} + '\');'" th:text="#{orders}"></a></td>
+	
 	<td th:if="${client.id != 1}" th:classappend="${clientStat.odd} ? '' : 'colored'">
 	<select th:onchange="'setRole(\'' + ${client.id} + '\');'" id="roleSelect">
 	<option th:each="role : ${client.ROLES}" th:if="${client.role == role}" th:text="${role}" selected="selected"></option>
@@ -55,7 +56,7 @@
 
 </table>
 
-<input type="hidden" th:value="#{delete.message}" id="deleteMessage">
+<input type="hidden" th:value="#{delete.passenger.message}" id="deleteMessage">
 
 </div>
 </body>

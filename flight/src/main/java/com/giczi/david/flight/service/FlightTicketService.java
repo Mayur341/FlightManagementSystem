@@ -69,7 +69,7 @@ public class FlightTicketService {
 
 	public List<FlightTicketDAO> findNotDeletedTicketsByPassengerId(Passenger passenger){
 		
-		List<FlightTicket> tickets = ticketRepo.findNotDeletedTicketsByUserId(passenger.getId());
+		List<FlightTicket> tickets = ticketRepo.findNotDeletedTicketsByPassengerId(passenger.getId());
 		
 		return new FlightTicketHighlighter().createInputFlightTicketStore(tickets);
 	}
@@ -117,4 +117,33 @@ public class FlightTicketService {
 		}
 	}
 	
+	public List<FlightTicketDAO> findTicketsByPassengerId(Passenger passenger){
+		
+		List<FlightTicket> tickets = ticketRepo.findByPassengerId(passenger.getId());
+		List<FlightTicketDAO> ticketDAOStore = new ArrayList<>();
+		
+		for (FlightTicket ticket : tickets) {
+			FlightTicketDAO ticketDAO = new FlightTicketDAO();
+			ticketDAO.setId(ticket.getId());
+			ticketDAO.setDepartureDate(ticket.getDepartureDate());
+			ticketDAO.setDeparturePlace(ticket.getDeparturePlace());
+			ticketDAO.setArrivalDate(ticket.getArrivalDate());
+			ticketDAO.setArrivalPlace(ticket.getArrivalPlace());
+			ticketDAO.setFlightNumber(ticket.getFlightNumber());
+			ticketDAO.setPrice(ticket.getPrice());
+			ticketDAO.setCancelled(ticket.isDeleted());
+			ticketDAOStore.add(ticketDAO);
+		}
+	
+		return  ticketDAOStore;
+	}
+	
+	public Optional<FlightTicket> findById(Long id) {
+		
+		return ticketRepo.findById(id);
+	}
+	
+	public void deleteFlightTicket(FlightTicket ticket) {
+		ticketRepo.delete(ticket);
+	}
 }

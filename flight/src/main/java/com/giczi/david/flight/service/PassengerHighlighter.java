@@ -28,6 +28,7 @@ public class PassengerHighlighter {
 			highlightedPassenger.setUsername(passenger.getUserName());
 			highlightedPassenger.setPassword(passenger.getPassword());
 			highlightedPassenger.setActivation(passenger.getActivation());
+			highlightedPassenger.setEnabled(passenger.isEnabled());
 			highlightedPassenger.setRole(rolerService.getPassengerRoleAsString(passenger.getRoles()));
 			highlightedPassenger.setROLES(rolerService.getRoleStringStore());
 			highlightedPassengertStore.add(highlightedPassenger);
