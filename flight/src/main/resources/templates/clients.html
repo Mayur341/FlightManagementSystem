@@ -12,6 +12,7 @@
 <h1 th:text="#{clients}"></h1>
 <div id="empty" th:if="${#lists.isEmpty(clients)}" th:text="#{empty}"></div>
 
+<input id="search-field" th:onkeyup="'searchPassenger()'" type="text" th:placeholder="#{search}">
 
 <table th:if="${not #lists.isEmpty(clients)}">
 	<tr>

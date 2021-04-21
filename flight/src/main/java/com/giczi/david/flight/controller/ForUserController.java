@@ -51,7 +51,7 @@ public class ForUserController {
 	public String showAllTickets(Model model) {
 		
 		Passenger passenger = passengerService.findPassengerByUserName(getAuthUser());
-		List<FlightTicketDAO> tickets = ticketService.findNotDeletedTicketsByPassengerId(passenger);
+		List<FlightTicketDAO> tickets = ticketService.findNotDeletedTicketsByPassenger(passenger);
 		
 		model.addAttribute("orderedTickets", tickets);
 			
@@ -99,14 +99,14 @@ public class ForUserController {
 	
 	
 	@RequestMapping("/ticket/search")
-	public String search(@RequestParam(value = "text") String text, @RequestParam(value="lang") String lang, Model model) {
+	public String searchTicketByPassenger(@RequestParam(value = "text") String text, @RequestParam(value="lang") String lang, Model model) {
 		
 		if(text.isEmpty()) {
 		return "redirect:/flight/reservations";
 		}
 		else{
 			Passenger passenger =  passengerService.findPassengerByUserName(getAuthUser());
-			List<FlightTicketDAO> tickets = ticketService.findByTextAndUserName(text, passenger.getId());
+			List<FlightTicketDAO> tickets = ticketService.findByTextAndPassengerId(text, passenger.getId(), false);
 			model.addAttribute("txt", text);
 			model.addAttribute("orderedTickets", tickets);
 		}

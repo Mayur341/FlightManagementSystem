@@ -25,10 +25,18 @@ document.getElementById("search-field").value = searchValue;
 }
 }
 
-function searchTicket(){
+function searchTicketByPassenger(){
+	
 	var str = document.getElementById("search-field").value;
 	var lang = document.getElementById("langSelect").value.toLowerCase();
 	location.href = location.origin + "/flight/ticket/search?text=" + str + "&lang=" + lang;
+}
+
+function searchTicketByAdmin(id){
+	
+	var str = document.getElementById("search-field").value;
+	var lang = document.getElementById("langSelect").value.toLowerCase();
+	location.href = location.origin + "/admin/ticket/search?text=" + str + "&lang=" + lang + "&id=" + id
 }
 
 function searchPassenger(){
@@ -186,16 +194,20 @@ function setLanguage() {
 	if("/flight/reg" === location.pathname){
 		location.href = "/login?lang=" + lang;
 	}
-	else if(location.href.includes("/admin/reservation") ||
-			location.href.includes("/flight/ticket/search")     ||
+	else if(location.href.includes("/admin/reservation")    ||
+			location.href.includes("/flight/ticket/search") ||
 			location.href.includes("/admin/passenger/search")
 			){
 		
 		var url = location.href.split("&");
 		location.href = url[0] + "&lang=" + lang;
 	}
+	else if(location.href.includes("/admin/ticket/search")){
+		var url = location.href.split("&");
+		location.href = url[0] + "&lang=" + lang + "&" + url[2];
+	}
 	else{
-		
+	
 	location.href = "?lang=" + lang;
 	}
 }

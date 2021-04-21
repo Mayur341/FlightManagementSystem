@@ -11,7 +11,6 @@
 <body>
 <input id="search-value" type="hidden" th:value="${txt}">
 
-
 <select id="langSelect" onchange="setLanguage()">
 <option th:value="#{lang}" th:text="#{lang}"></option>
 <option th:if="#{lang} == 'HU'">EN</option>
@@ -23,9 +22,7 @@
 <br><br>
 <div id="auth" sec:authorize="isAuthenticated()">
  <span th:text="#{auth}"></span><b><span sec:authentication="name"></span></b></div>
- <div id="options" sec:authorize="isAuthenticated()">
-  <input id="search-field" th:onkeyup="'searchPassenger()'" type="text" th:placeholder="#{search}">
- </div>
+ 
 
 <div layout:fragment="clients"></div>
 <div layout:fragment="client_reservations"></div>

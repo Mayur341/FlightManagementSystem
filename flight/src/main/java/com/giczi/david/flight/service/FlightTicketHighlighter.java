@@ -28,6 +28,7 @@ public class FlightTicketHighlighter {
 			highlightedFlightTicket.setArrivalPlace(flightTicket.getArrivalPlace());
 			highlightedFlightTicket.setFlightNumber(flightTicket.getFlightNumber());
 			highlightedFlightTicket.setPrice(flightTicket.getPrice());
+			highlightedFlightTicket.setCancelled(flightTicket.isDeleted());
 			highlightedFlightTicketStore.add(highlightedFlightTicket);
 		}
 		
