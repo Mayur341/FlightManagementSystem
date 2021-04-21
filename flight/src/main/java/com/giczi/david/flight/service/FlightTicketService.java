@@ -67,7 +67,7 @@ public class FlightTicketService {
 		
 	}
 
-	public List<FlightTicketDAO> findNotDeletedTicketsByPassengerId(Passenger passenger){
+	public List<FlightTicketDAO> findNotDeletedTicketsByPassenger(Passenger passenger){
 		
 		List<FlightTicket> tickets = ticketRepo.findNotDeletedTicketsByPassengerId(passenger.getId());
 		
@@ -82,7 +82,7 @@ public class FlightTicketService {
 		ticketRepo.save(ticket);
 		
 	}
-	public List<FlightTicketDAO> findByTextAndUserName(String text, Long id){
+	public List<FlightTicketDAO> findByTextAndPassengerId(String text, Long id, boolean all){
 		
 		List<FlightTicket> tickets= new ArrayList<>();
 		
@@ -93,13 +93,26 @@ public class FlightTicketService {
 			text = String.valueOf(text.charAt(0)).toUpperCase() + text.substring(1, text.length()).toLowerCase();
 		}
 		
-		tickets = ticketRepo.findByTextAndUserName(text, id);
-		
-		if(tickets.isEmpty()) {
-			tickets = ticketRepo.findByTextAndUserName(text.toUpperCase(), id);
+		if(all) {
+			tickets = ticketRepo.findAllTicketsByTextAndPassengerId(text, id);
 		}
-		if(tickets.isEmpty()) {
-			tickets = ticketRepo.findByTextAndUserName(text.toLowerCase(), id);
+		else {
+			tickets = ticketRepo.findNotCancelledTicketsByTextAndPassengerId(text, id);
+		}
+		
+		if(tickets.isEmpty() && all) {
+			tickets = ticketRepo.findAllTicketsByTextAndPassengerId(text.toUpperCase(), id);
+		}
+		else if(tickets.isEmpty() && !all) {
+			tickets = ticketRepo.findNotCancelledTicketsByTextAndPassengerId(text.toUpperCase(), id);
+		}
+		
+		
+		if(tickets.isEmpty() && all) {
+			tickets = ticketRepo.findAllTicketsByTextAndPassengerId(text.toLowerCase(), id);
+		}
+		else if(tickets.isEmpty() && !all) {
+			tickets = ticketRepo.findNotCancelledTicketsByTextAndPassengerId(text.toLowerCase(), id);
 		}
 		
 		FlightTicketHighlighter highlighter = new FlightTicketHighlighter();
@@ -117,7 +130,7 @@ public class FlightTicketService {
 		}
 	}
 	
-	public List<FlightTicketDAO> findTicketsByPassengerId(Passenger passenger){
+	public List<FlightTicketDAO> findTicketsByPassenger(Passenger passenger){
 		
 		List<FlightTicket> tickets = ticketRepo.findByPassengerId(passenger.getId());
 		List<FlightTicketDAO> ticketDAOStore = new ArrayList<>();

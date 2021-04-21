@@ -27,7 +27,7 @@
  <a th:href="@{/flight/order}" th:text="#{order.form}"></a>&nbsp;&nbsp;&nbsp;
  <a th:href="@{/flight/reservations}" th:text="#{orders}"></a>&nbsp;&nbsp;&nbsp;
  <a th:text="#{change.password}" th:onclick="changePassword()"></a>&nbsp;&nbsp;&nbsp;
- <input id="search-field" th:onkeyup="'searchTicket()'" type="text" th:placeholder="#{search}">
+ <input id="search-field" th:onkeyup="'searchTicketByPassenger()'" type="text" th:placeholder="#{search}">
  <input type="hidden" th:value="#{change.password.msg}" id="newPwdMsg">
  <input type="hidden" th:value="#{password.error}" id="newPwdError">
  <input type="hidden" th:value="#{password.correct}" id="newPwdCorrect"> 

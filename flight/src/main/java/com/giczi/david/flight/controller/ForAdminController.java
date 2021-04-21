@@ -167,7 +167,7 @@ public class ForAdminController {
 	}
 	
 	@RequestMapping("/passenger/search")
-	public String search(@RequestParam(value = "text") String text, @RequestParam("lang") String lang, Model model) {
+	public String searchPassenger(@RequestParam(value = "text") String text, @RequestParam("lang") String lang, Model model) {
 		
 		
 		if(text.isEmpty()) {
@@ -191,14 +191,16 @@ public class ForAdminController {
 		
 		if(passenger.isPresent()) {
 			PassengerDAO pass = new PassengerDAO();
+			pass.setId(passenger.get().getId());
 			pass.setFirstName(passenger.get().getFirstName());
 			pass.setLastName(passenger.get().getLastName());
 			pass.setDateOfBirth(passenger.get().getDateOfBirth());
 			pass.setUsername(passenger.get().getUserName());
 			pass.setPassword(passenger.get().getPassword());
 			model.addAttribute("client", pass);
-			List<FlightTicketDAO> tickets = ticketService.findTicketsByPassengerId(passenger.get());
+			List<FlightTicketDAO> tickets = ticketService.findTicketsByPassenger(passenger.get());
 			model.addAttribute("orderedTickets", tickets);
+			model.addAttribute("passengerId", pass.getId());
 		}
 		
 		return "client_reservations";
@@ -236,4 +238,34 @@ public class ForAdminController {
 		
 		return "redirect:/admin/reservations?id=" + ordererId + "&lang=" + LocaleContextHolder.getLocale();
 	}
+	
+	@RequestMapping("/ticket/search")
+	public String searchTicketByAdmin(@RequestParam(value = "text") String text, @RequestParam(value="lang") String lang, @RequestParam(value="id") String id,  Model model) {
+		
+		Long passenger_id = Long.valueOf(id);
+		Optional<Passenger> passenger = passengerService.findPassengerById(passenger_id);
+		List<FlightTicketDAO> tickets;
+	
+		if(text.isEmpty()) {
+		tickets = ticketService.findTicketsByPassenger(passenger.get());
+	}
+		else {
+		tickets = ticketService.findByTextAndPassengerId(text, passenger_id, true);
+	}
+		
+		PassengerDAO pass = new PassengerDAO();
+		pass.setId(passenger.get().getId());
+		pass.setFirstName(passenger.get().getFirstName());
+		pass.setLastName(passenger.get().getLastName());
+		pass.setDateOfBirth(passenger.get().getDateOfBirth());
+		pass.setUsername(passenger.get().getUserName());
+		pass.setPassword(passenger.get().getPassword());
+		model.addAttribute("client", pass);
+		model.addAttribute("passengerId", pass.getId());
+		model.addAttribute("orderedTickets", tickets);
+		model.addAttribute("txt", text);
+			
+		return "client_reservations";
+	}
+	
 }

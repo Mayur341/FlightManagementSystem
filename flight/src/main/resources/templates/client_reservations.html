@@ -7,6 +7,9 @@
 <title th:text="#{title}"></title>
 </head>
 <body>
+
+<input id="search-value" type="hidden" th:value="${txt}">
+
 <div layout:fragment="client_reservations">
 <h1 th:text="#{client.reservations}"></h1>
 <a th:href="@{/admin/clients}" th:text="#{go.clients}"></a>
@@ -21,6 +24,7 @@
 
 </table>
 <hr>
+<input id="search-field" th:onkeyup="'searchTicketByAdmin(\'' + ${passengerId} + '\')'" type="text" th:placeholder="#{search}">
 <div id="empty" th:if="${#lists.isEmpty(orderedTickets)}" th:text="#{empty}"></div>
 
 <table th:if="${not #lists.isEmpty(orderedTickets)}">
