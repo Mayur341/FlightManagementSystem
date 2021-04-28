@@ -96,7 +96,12 @@ hr{
 	background-color: lightgray;
 	border-color: lightgray;
 }
-input{
+.modify_field{
+	width: 65px;
+	height:20px;
+	background-color: white;
+}
+ input{
 	background-color: lightgray;
 	height: 30px;
 	border-radius: 5px;
