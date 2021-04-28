@@ -1,9 +1,11 @@
 package com.giczi.david.flight.controller;
 
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -15,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.giczi.david.flight.domain.FlightTicket;
@@ -268,4 +271,59 @@ public class ForAdminController {
 		return "client_reservations";
 	}
 	
+	@RequestMapping("/ticket/getModifyTicket")
+	public String modifyTicket(@RequestParam(value="id") String id,  @RequestParam(value="lang") String lang, Model model) {
+	
+		Long ticketId = Long.valueOf(id);
+		Optional<FlightTicket> ticket = ticketService.findById(ticketId);
+		Passenger orderer = ticket.get().getPassenger();
+		
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Budapest"));
+		
+		ticketService.init();
+		model.addAttribute("lang", LocaleContextHolder.getLocale().toString());
+		model.addAttribute("departurePlaces", ticketService.getDeparturePlaces());
+		model.addAttribute("departurePlace", ticket.get().getDeparturePlace());
+		calendar.setTime(ticket.get().getDepartureDate());
+		model.addAttribute("dep_year",  calendar.get(Calendar.YEAR));
+		model.addAttribute("dep_month",  calendar.get(Calendar.MONTH) + 1);
+		model.addAttribute("dep_day",  calendar.get(Calendar.DAY_OF_MONTH));
+		model.addAttribute("arrivalPlaces", ticketService.getArrivalPlaces());
+		model.addAttribute("arrivalPlace", ticket.get().getArrivalPlace());
+		model.addAttribute("flightNumbers", ticketService.getPlanes());
+		model.addAttribute("flightNumber", ticket.get().getFlightNumber());
+		model.addAttribute("price", ticket.get().getPrice());
+		model.addAttribute("passengerId", orderer.getId());
+		model.addAttribute("ticket", new FlightTicket());
+		model.addAttribute("ticketId", ticketId);
+			
+		return "modify_ticket";
+	}
+	
+	@RequestMapping("/ticket/setModifiedTicket")
+	public String modifyTicket(@ModelAttribute FlightTicket ticket, HttpServletRequest request) {
+		
+		Long passId = Long.valueOf(request.getParameter("passengerId"));
+		Long ticketId = Long.valueOf(request.getParameter("ticketId"));
+		
+		Optional<FlightTicket> modifiedTicket = ticketService.findById(ticketId);
+		
+		if(modifiedTicket.isPresent()) {
+			modifiedTicket.get().setDepartureDate(ticket.getDepartureDate());
+			modifiedTicket.get().setDeparturePlace(ticket.getDeparturePlace());
+			modifiedTicket.get().setArrivalDate(ticket.getArrivalDate());
+			modifiedTicket.get().setArrivalPlace(ticket.getArrivalPlace());
+			modifiedTicket.get().setFlightNumber(ticket.getFlightNumber());
+			modifiedTicket.get().setPrice(ticket.getPrice());
+			ticketService.saveFlightTicket(modifiedTicket.get());
+		}
+		
+		return "redirect:/admin/reservations?id=" + passId + "&lang=" + LocaleContextHolder.getLocale();
 }
+
+	
+	
+	
+}	
+	
+	

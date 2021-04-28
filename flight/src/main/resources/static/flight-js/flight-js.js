@@ -17,6 +17,9 @@ if(document.getElementById("search-field") != null){
 document.getElementById("search-field").addEventListener("focus", setup);
 document.getElementById("search-field").focus();
 }
+if(document.getElementById("mod_arr_date") != null){
+	document.getElementById("mod_arr_date").value = getModifiedDate(document.getElementById("langSelect").value);
+}
 
 function setup(){
 if(document.getElementById("search-value").value != null){
@@ -95,6 +98,62 @@ function goReservations(id){
 	
 	var lang = document.getElementById("langSelect").value.toLowerCase();
 	location.href = location.origin + "/admin/reservations?id=" + id + "&lang=" + lang;
+}
+
+function goModifyPage(id){
+	
+	var lang = document.getElementById("langSelect").value.toLowerCase();
+	location.href = location.origin + "/admin/ticket/getModifyTicket?id=" + id + "&lang=" + lang;
+}
+
+function cancelModifyingTicket(){
+	
+	var lang = document.getElementById("langSelect").value.toLowerCase();
+	var id = document.getElementById("passengerId").value;
+	location.href = location.origin + "/admin/reservations?id=" + id + "&lang=" + lang;
+}
+
+
+function getModifiedDate(language){
+	
+	var mod_dep_year = document.getElementById("mod_dep_year").value;
+	var mod_dep_month = document.getElementById("mod_dep_month").value;
+	if(parseInt(mod_dep_month) < 10 ){
+		mod_dep_month = "0" + mod_dep_month;
+	}
+	var mod_dep_day = document.getElementById("mod_dep_day").value;
+	if(parseInt(mod_dep_day) < 10 ){
+		mod_dep_day = "0" + mod_dep_day;
+	}
+	
+	if("EN" == language){
+		return mod_dep_day + "-" + mod_dep_month + "-" + mod_dep_year;
+	}
+	
+	return mod_dep_year + "-" + mod_dep_month + "-" + mod_dep_day;
+}
+
+function setArrivalDate(){
+	document.getElementById("mod_arr_date").value = getModifiedDate(document.getElementById("langSelect").value);
+}
+
+
+function sendModifiedTicket(){
+	
+	var dep_time = getModifiedDate("HU");
+	var dep_place = document.getElementById("mod_dep_place").value;
+	var arr_time = getModifiedDate("HU");
+	var arr_place = document.getElementById("mod_arr_place").value;
+	var flying_number = document.getElementById("mod_flying_number").value;
+	var price = document.getElementById("mod_price").value;
+	
+	document.getElementById("dep_date").value = dep_time;
+	document.getElementById("dep_place").value = dep_place;
+	document.getElementById("arr_date").value = arr_time;
+	document.getElementById("arr_place").value = arr_place;
+	document.getElementById("flying_number").value = flying_number;
+	document.getElementById("price").value = price;
+	document.getElementById("modified_ticket_form").submit();
 }
 
 function changePassword(){
@@ -196,7 +255,8 @@ function setLanguage() {
 	}
 	else if(location.href.includes("/admin/reservation")    ||
 			location.href.includes("/flight/ticket/search") ||
-			location.href.includes("/admin/passenger/search")
+			location.href.includes("/admin/passenger/search") ||
+			location.href.includes("/admin/ticket/modify")
 			){
 		
 		var url = location.href.split("&");

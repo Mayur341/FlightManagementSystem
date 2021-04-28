@@ -45,7 +45,7 @@ th:value="${plane}" th:text="${plane}">
 </option>
 </select>
 <h4 th:text="#{price}"></h4>
-<input type="number" size="20" th:field="*{price}" th:min="${cost}" step="500" required="required"/><br>
+<input type="number" class="order_price"  th:field="*{price}" th:min="${cost}" step="500" required="required"/><br>
 
 <br><br><br>
 <input type="submit" id=regist-submit-btn th:value="#{send}">

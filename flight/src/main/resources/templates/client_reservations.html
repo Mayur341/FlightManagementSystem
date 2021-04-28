@@ -49,7 +49,7 @@
 	<td th:utext=${ticket.flightNumber} th:classappend="${ticketStat.odd} ? '' : 'colored'"></td>
 	<td th:utext=${ticket.price} th:classappend="${ticketStat.odd} ? '' : 'colored'"></td>
 	<td th:classappend="${ticketStat.odd} ? '' : 'colored'"><a th:onclick="'activateTicket(\'' + ${ticket.id} + '\');'" th:utext=${ticket.cancelled}></a></td>
-	<td th:classappend="${ticketStat.odd} ? '' : 'colored'"><a th:text="#{modify}"></a></td>
+	<td th:classappend="${ticketStat.odd} ? '' : 'colored'"><a th:onclick="'goModifyPage(\'' + ${ticket.id} + '\')'" th:text="#{modify}"></a></td>
 	<td th:classappend="${ticketStat.odd} ? '' : 'colored'"><a th:onclick="'deleteTicket(\'' + ${ticket.id} + '\');'" th:text="#{del}"></a></td>
 	</tr>
 
