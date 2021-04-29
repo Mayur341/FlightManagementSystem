@@ -55,7 +55,7 @@
 	<option th:each="number : ${flightNumbers}" th:unless="${flightNumber == number}" th:text="${number}"></option>
 	</select>
 	</td>
-	<td><input id="mod_price" type="number" class="modify_field" step="500" th:value="${price}"> </td>
+	<td><input id="mod_price" type="number" class="modify_field" min="0" step="500" th:value="${price}"> </td>
 	<td><a th:onclick="sendModifiedTicket()" th:text="#{modify}"></a></td>
 	<td><a th:onclick="cancelModifyingTicket()" th:text="#{cancel}"></a></td>
 	</tr>
