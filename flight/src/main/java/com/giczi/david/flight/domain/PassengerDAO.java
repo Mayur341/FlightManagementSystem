@@ -7,7 +7,7 @@ import com.giczi.david.flight.service.EncoderService;
 import com.giczi.david.flight.service.LangService;
 
 
-public class PassengerDAO {
+public class PassengerDAO  {
 
 	private Long id;
 	private String firstName;
@@ -83,11 +83,12 @@ public class PassengerDAO {
 		return activation;
 	}
 	public void setActivation(String activation) {
+		
 		if(activation == null) {
-			this.activation = "-";
+		this.activation = "-";	
 		}
 		else {
-			this.activation = activation;	
+		this.activation = activation;		
 		}
 	}
 	
@@ -109,6 +110,5 @@ public class PassengerDAO {
 	public void setROLES(List<String> rOLES) {
 		ROLES = rOLES;
 	}
-	
 	
 }

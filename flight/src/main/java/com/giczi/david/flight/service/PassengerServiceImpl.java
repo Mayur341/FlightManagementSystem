@@ -1,6 +1,7 @@
 package com.giczi.david.flight.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -131,6 +132,7 @@ public class PassengerServiceImpl implements PassengerService, UserDetailsServic
 			passengerDAO.setROLES(roleService.getRoleStringStore());
 			passengerDAOStore.add(passengerDAO);
 		}
+		
 		
 		return passengerDAOStore;
 	};
