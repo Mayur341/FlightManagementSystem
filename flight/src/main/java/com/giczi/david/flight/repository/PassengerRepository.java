@@ -22,7 +22,7 @@ public interface PassengerRepository extends CrudRepository<Passenger, Long> {
 			+ " or "
 			+ "last_name like %:text%" 
 			+ " or "
-			+ "date_of_birth like %:text%"
+			+ "CAST(date_of_birth AS TEXT) like %:text%"
 			+ " or "
 			+ "user_name like %:text%"
 			+ " or "

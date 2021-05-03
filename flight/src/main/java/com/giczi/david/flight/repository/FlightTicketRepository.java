@@ -19,29 +19,29 @@ public interface FlightTicketRepository extends CrudRepository<FlightTicket, Lon
 			+ " where "
 			+ "(passenger_id = :id and deleted = false and departure_place like %:text%)"
 			+ " or "
-			+ "(passenger_id = :id and deleted = false and departure_date like %:text%)" 
+			+ "(passenger_id = :id and deleted = false and CAST(departure_date AS TEXT) like %:text%)" 
 			+ " or "
 			+ "(passenger_id = :id and deleted = false and arrival_place like %:text%)"
 			+ " or "
-			+ "(passenger_id = :id and deleted = false and arrival_date like %:text%)"
+			+ "(passenger_id = :id and deleted = false and CAST(arrival_date AS TEXT) like %:text%)"
 			+ " or "
 			+ "(passenger_id = :id and deleted = false and flight_number like %:text%)"
 			+ " or "
-			+ "(passenger_id = :id and deleted = false and price like %:text%)", nativeQuery = true)
+			+ "(passenger_id = :id and deleted = false and CAST(price AS TEXT) like %:text%)", nativeQuery = true)
 	List<FlightTicket> findNotCancelledTicketsByTextAndPassengerId(@Param("text") String text, Long id);
 	@Query(value = "select * from tickets"
 			+ " where "
 			+ "(passenger_id = :id and departure_place like %:text%)"
 			+ " or "
-			+ "(passenger_id = :id and departure_date like %:text%)" 
+			+ "(passenger_id = :id and CAST(departure_date AS TEXT) like %:text%)" 
 			+ " or "
 			+ "(passenger_id = :id and arrival_place like %:text%)"
 			+ " or "
-			+ "(passenger_id = :id and arrival_date like %:text%)"
+			+ "(passenger_id = :id and CAST(arrival_date AS TEXT) like %:text%)"
 			+ " or "
 			+ "(passenger_id = :id and flight_number like %:text%)"
 			+ " or "
-			+ "(passenger_id = :id and price like %:text%)", nativeQuery = true)
+			+ "(passenger_id = :id and CAST(price AS TEXT) like %:text%)", nativeQuery = true)
 	List<FlightTicket> findAllTicketsByTextAndPassengerId(@Param("text") String text, Long id);
 	@Query(value = "select * from tickets where passenger_id = :id", nativeQuery = true)
 	List<FlightTicket> findTicketsByPassengerId(@Param("id") Long id);
