@@ -385,16 +385,15 @@ function isEqual(){
 	}
 }
 
-var enabledSendBtn = true;
+var isNonClicked = true;
 
 function isOK(){
 	
-	 if(isValidUsr() && isValidPwd(null) && isEqual() && enabledSendBtn){
-		
-		document.getElementById("regist-submit-btn").disabled = false;
-		enabledSendBtn = false;
-	}
-	else{
+	
+	 if(isValidUsr() && isValidPwd(null) && isEqual() && isNonClicked){
+		document.getElementById("regForm").submit();
 		document.getElementById("regist-submit-btn").disabled = true;
+		isNonClicked = false;
 	}
+	
 }

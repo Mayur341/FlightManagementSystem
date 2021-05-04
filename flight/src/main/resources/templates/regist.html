@@ -18,29 +18,30 @@
 <br>
 
 <br>
-<form th:action="@{/flight/reg}" method="post" th:object="${user}">
+<form th:action="@{/flight/reg}" method="post" th:object="${user}" id="regForm">
 <h4 th:text="#{firstname}"></h4>
-<input type="text" id="fname" name="firstname" th:field="*{firstName}" size="50" required="required" autofocus="autofocus"/><br>
+<input type="text" id="fname" name="firstname" th:field="*{firstName}" size="50" autofocus="autofocus"/><br>
 <h4 th:text="#{lastname}"></h4>
-<input type="text" id="lname" name="lastname" th:field="*{lastName}" size="50" required="required"/><br>
+<input type="text" id="lname" name="lastname" th:field="*{lastName}" size="50"/><br>
 <h4 th:text="#{birth}"></h4>
-<input type="date" id="bdate" name="birthdate" th:field="*{{dateOfBirth}}" required="required"/><br>
+<input type="date" id="bdate" name="birthdate" th:field="*{{dateOfBirth}}"/><br>
 <h4 th:text="#{user}"></h4>
-<input type="email" id="uname" onblur="isOK()" name="username" size="50" th:field="*{userName}" th:placeholder="#{email}" required="required"/>
+<input type="email" id="uname" name="username" size="50" th:field="*{userName}" th:placeholder="#{email}"/>
 <div id="username-error"></div>
 <div id="username-correct"></div>
 <h4 th:text="#{pass}"></h4>
-<input type="password" id="pass" onblur="isOK()" name="pass" size="50" required="required"/><br>
+<input type="password" id="pass" name="pass" size="50"/><br>
 <div id="password-error"></div>
 <div id="password-correct"></div>
 <div id="password-info"></div>
 <h4 th:text="#{passagain}"></h4>
-<input type="password" id="passagain" onmouseout="isOK()" name="pass" size="50" th:field="*{password}" required="required"/><br>
+<input type="password" id="passagain" onmouseout="isOK()" name="pass" size="50" th:field="*{password}"/><br>
 <div id="passwords-non-equal"></div>
 <div id="passwords-equal"></div>
 <br><br><br>
-<input type="submit" id=regist-submit-btn th:value="#{send}">
-</form><br>
+</form>
+<input type="button" id=regist-submit-btn onclick="isOk()" th:value="#{send}"/>
+<br>
 
 </div>
 
